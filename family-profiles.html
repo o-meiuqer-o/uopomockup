@@ -4,33 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Profiles - UOPO</title>
+    <link rel="stylesheet" href="css/uopo-branding.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #FEF8F0; min-height: 100vh; padding: 20px; }
-        nav { background: white; padding: 15px 30px; margin-bottom: 28px; border-radius: 8px; box-shadow: 0 2px 10px #e8dcc8; display: flex; justify-content: space-between; align-items: center;}
-        nav .logo { font-size: 24px; font-weight: bold; color: #D4A574;}
-        nav a { margin-left: 20px; text-decoration: none; color: #4A3F35; font-size: 15px;}
-        nav a:hover { color: #D4A574;}
-        .container { max-width: 950px; margin: 30px auto; }
-        h1{margin-bottom:10px;color:#4A3F35;}
-        .subtitle{color: #9B8B7E; margin-bottom:22px;}
-        .profiles-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:23px; margin-bottom:40px;}
-        .profile-card{background:white; padding:24px 18px; border-radius:12px; box-shadow:0 2px 10px #e8dcc8;}
-        .profile-header{display:flex;align-items:center; margin-bottom:17px;}
-        .avatar{width:52px;height:52px; border-radius:50%; background:#D4A574; color:white; display:flex;align-items:center;justify-content:center;font-size:24px;margin-right:15px;}
-        .profile-name{font-size:19px;font-weight:600;color:#4A3F35;}
-        .profile-relation{font-size:13px;color:#9B8B7E;}
-        .profile-info{margin-bottom:8px;font-size:14px;color:#555;}
-        .profile-goal{background: #FEF8F0;padding:10px 15px; border-radius:6px;font-size:13px;color:#4A3F35;margin-bottom:12px;}
-        .btn{display:inline-block; padding:10px 15px; background:#D4A574;color:white; text-decoration:none; border-radius:6px;font-size:13px;font-weight:600; transition:.3s; border:none;cursor:pointer;width:100%;text-align:center;}
-        .btn:hover{background:#8B6F47;}
-        .btn-add{background:#D4A574; color:white; padding:12px 24px; border-radius:8px;font-weight:600;font-size:14px;border:none;margin-bottom:20px;}
-        .btn-add:hover{background:#8B6F47;}
-        .highlight-card { border-left: 5px solid #2e7d32; background: #e8f5e9;}
-        @media (max-width: 700px) {.profiles-grid{grid-template-columns:1fr;}}
+        body { background: #FEF8F0; }
+        .container { max-width: 500px; margin: 38px auto 0 auto;}
+        h1 {margin-bottom:10px; color:#4A3F35;}
+        .subtitle { color: #9B8B7E; margin-bottom:22px;}
+        .btn-add { background:#D4A574; color:#fff; padding:12px 24px; border-radius:8px;font-weight:600;font-size:14px;border:none;margin-bottom:20px; width:100%; cursor:pointer;}
+        .btn-add:hover { background:#8B6F47; }
+        .profiles-list { display: flex; flex-direction: column; gap: 22px; }
+        .profile-card { background: white; border-radius: 18px; box-shadow:0 2px 10px #e8dcc8; padding:27px 22px; margin-bottom:0; }
+        .profile-header { display:flex;align-items:center; margin-bottom:13px;}
+        .avatar { width:48px; height:48px; border-radius:50%; background:#F8D8A0; color:#4A3F35; display:flex; align-items:center; justify-content:center; font-size:27px; margin-right:12px;}
+        .profile-name { font-size:19px; font-weight:700; color:#222; }
+        .profile-relation { font-size:13px; color:#9B8B7E; }
+        .profile-info { font-size:15px; color:#444; margin-bottom:7px;}
+        .profile-goal { background:#FEF8F0; padding:8px 12px; border-radius:7px; font-size:14px; color:#4A3F35; margin-bottom:9px; }
+        .btn { background:#D4A574; color:white; padding:9px 0; border-radius:8px; font-weight:600; font-size:14px; border:none; width:100%; cursor:pointer; }
+        .btn:hover { background:#8B6F47; }
+        @media (max-width:600px){ .container{padding:0 2vw;} }
     </style>
 </head>
 <body>
-    <nav>
+<nav>
     <span class="logo">🌾 UOPO</span>
     <button class="hamburger" onclick="openMenu()">☰</button>
 </nav>
@@ -48,49 +44,46 @@
     <a href="index.html">🏡 Home</a>
     <a href="signin.html">🚪 Sign Out</a>
 </div>
-
 <div class="container">
     <h1>Family Profiles</h1>
-    <p class="subtitle">Manage your family’s records and goals.</p>
+    <p class="subtitle">Manage your family's records and goals.</p>
     <button class="btn-add" onclick="window.location='add-family-member.html'">➕ Add Family Member</button>
-    <div class="profiles-grid" id="famGrid"></div>
+    <div class="profiles-list" id="famList"></div>
 </div>
 <script>
-// Simulate family list, recently created member at top if present
-let stored = sessionStorage.getItem("recentFamilyMember");
-let mainList = [
-    { avatar:'🧑🏽‍💼', name:"Rahul Sharma", relation:"Self", age:32, height:172, weight:68, goal:"Weight Loss (65 kg)", highlight:false },
-    { avatar:'👩🏽', name:"Priya Sharma", relation:"Spouse", age:31, height:162, weight:59, goal:"Healthy Maintenance", highlight:false },
-    { avatar:'👦🏽', name:"Aarav Sharma", relation:"Child", age:8, height:123, weight:28, goal:"Healthy Growth", highlight:false },
-    { avatar:'👵🏽', name:"Shanta Devi", relation:"Mother", age:64, height:153, weight:56, goal:"Diabetes Management", highlight:false }
+const mainList = [
+    { avatar:'<img src="https://api.dicebear.com/7.x/miniavs/svg?seed=Rahul" style="width:40px;height:40px;border-radius:50%;background:#F8D8A0;">', name:"Rahul Sharma", relation:"Self", age:32, height:172, weight:68, goal:"Weight Loss (65 kg)" },
+    { avatar:'<img src="https://api.dicebear.com/7.x/miniavs/svg?seed=Priya" style="width:40px;height:40px;border-radius:50%;background:#F8D8A0;">', name:"Priya Sharma", relation:"Spouse", age:31, height:162, weight:59, goal:"Healthy Maintenance" },
+    { avatar:'<img src="https://api.dicebear.com/7.x/miniavs/svg?seed=Aarav" style="width:40px;height:40px;border-radius:50%;background:#F8D8A0;">', name:"Aarav Sharma", relation:"Child", age:8, height:123, weight:28, goal:"Healthy Growth" },
+    { avatar:'<img src="https://api.dicebear.com/7.x/miniavs/svg?seed=Shanta" style="width:40px;height:40px;border-radius:50%;background:#F8D8A0;">', name:"Shanta Devi", relation:"Mother", age:64, height:153, weight:56, goal:"Diabetes Management" }
 ];
-let famGrid = document.getElementById("famGrid");
-let data = [...mainList];
-if (stored) {
-    let m = JSON.parse(stored);
-    m.highlight = true;
-    data.unshift(m);
-}
-famGrid.innerHTML = "";
-data.forEach(function(member){
-    famGrid.innerHTML += `
-        <div class="profile-card${member.highlight?' highlight-card':''}">
+let famList = document.getElementById("famList");
+mainList.forEach(member=>{
+    famList.innerHTML += `
+        <div class="profile-card">
             <div class="profile-header">
-                <div class="avatar">${member.avatar||"👤"}</div>
+                <div class="avatar">${member.avatar}</div>
                 <div>
                     <div class="profile-name">${member.name}</div>
                     <div class="profile-relation">${member.relation}</div>
                 </div>
             </div>
-            <div class="profile-info"><strong>Age:</strong> ${member.age} years</div>
-            <div class="profile-info"><strong>Height:</strong> ${member.height} cm</div>
-            <div class="profile-info"><strong>Current Weight:</strong> ${member.weight} kg</div>
+            <div class="profile-info"><b>Age:</b> ${member.age} years</div>
+            <div class="profile-info"><b>Height:</b> ${member.height} cm</div>
+            <div class="profile-info"><b>Current Weight:</b> ${member.weight} kg</div>
             <div class="profile-goal">Goal: ${member.goal||"--"}</div>
-            <button class="btn">View Details</button>
+            <button class="btn" onclick="alert('Details for ${member.name}')">View Details</button>
         </div>
     `;
 });
-// Optionally, sessionStorage.removeItem("recentFamilyMember"); // clear highlight after display
+function openMenu() {
+    document.getElementById("menuDrawer").classList.add("open");
+    document.getElementById("menuBackdrop").classList.add("show");
+}
+function closeMenu() {
+    document.getElementById("menuDrawer").classList.remove("open");
+    document.getElementById("menuBackdrop").classList.remove("show");
+}
 </script>
-<script> function openMenu() {     document.getElementById("menuDrawer").classList.add("open");     document.getElementById("menuBackdrop").classList.add("show"); } function closeMenu() {     document.getElementById("menuDrawer").classList.remove("open");     document.getElementById("menuBackdrop").classList.remove("show"); } </script></body>
+</body>
 </html>
