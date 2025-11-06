@@ -1,128 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Family Member - UOPO</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #FEF8F0; min-height: 100vh; margin: 0; padding: 0;}
-        nav { background: white; padding: 15px 30px; margin-bottom: 24px; border-radius: 8px; box-shadow: 0 2px 10px #e8dcc8; display: flex; justify-content: space-between; align-items: center; }
-        nav .logo { font-size: 24px; font-weight: bold; color: #D4A574;}
-        nav a { margin-left: 20px; text-decoration: none; color: #4A3F35; font-size: 15px;}
-        nav a:hover { color: #D4A574;}
-        .container { max-width: 500px; margin: 35px auto 0 auto;}
-        .page-header { background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%);color: white; border-radius: 12px; padding: 22px 15px 16px 15px; text-align: center; margin-bottom: 10px;}
-        .page-header h1 { font-size: 26px; font-weight: 700; margin:0 0 7px;}
-        .profile-type-selector { display: flex; gap: 15px; margin-bottom: 28px;}
-        .profile-type-card { background: white; padding: 22px 9px; border-radius: 12px; box-shadow: 0 2px 10px #ece0d0; flex:1; text-align:center; cursor:pointer; font-size:15px; border:2px solid transparent;}
-        .profile-type-card.selected { border:2px solid #D4A574; background:#FEF8F0;color:#D4A574; font-weight:600;}
-        .type-icon { font-size: 36px; margin-bottom: 9px;}
-        .form-section { background: white; padding: 22px 15px; border-radius: 12px; box-shadow: 0 2px 10px #ece0d0; margin-bottom: 18px;}
-        .section-title { color: #4A3F35; font-size: 19px;font-weight:600; margin-bottom: 18px; border-bottom:1px solid #E8DCC8;}
-        .form-group { margin-bottom: 13px;}
-        label { font-weight: 600; color: #4A3F35; font-size: 14px; }
-        input, select { width: 100%; padding: 10px; font-size: 16px; margin-top: 4px; margin-bottom:3px; border-radius: 6px; border: 1px solid #D4A574;}
-        .btn { background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%); color: white; border: none; border-radius: 8px; padding: 15px 0; font-size: 16px; font-weight: 600; width: 100%; margin-top: 10px; }
-        .btn:hover { background: #8B6F47; }
-        .recent-family { background: #E8F5E9; border-radius: 11px; padding: 15px 10px; margin: 12px 0; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Family Member - UOPO</title>
+  <link rel="stylesheet" href="css/uopo-branding.css">
+  <style>
+    body { background: #FEF8F0; }
+    .container { max-width: 440px; margin: 36px auto 0 auto; }
+    .form-box { background: #fff; padding: 26px 17px; border-radius: 13px; box-shadow: 0 2px 10px #e8dcc8;}
+    h1 { color: #8B6F47; font-size: 23px; margin-bottom: 20px;}
+    .form-group { margin-bottom: 17px; }
+    label { font-weight: 600; color: #D4A574; }
+    input, select { width: 100%; padding: 11px; font-size: 16px; border-radius: 6px; border: 1px solid #D4A574; background: #fff; color: #4A3F35; }
+    input:focus, select:focus { border-color: #8B6F47; outline: none;}
+    .form-actions { display: flex; gap:15px; }
+    .btn { background: #D4A574; color: white; border: none; border-radius: 8px; padding: 13px 34px; font-size: 16px; font-weight: 600;}
+    .btn:hover { background: #8B6F47;}
+    @media(max-width:600px){ .container{padding:0 2vw;} .form-actions{flex-direction:column;} }
+  </style>
 </head>
-<body><nav>     <span class="logo">🌾 UOPO</span>     <button class="hamburger" onclick="openMenu()">☰</button> </nav> <div class="menu-backdrop" onclick="closeMenu()" id="menuBackdrop"></div> <div class="menu-drawer" id="menuDrawer">     <a href="dashboard.html">🏠 Dashboard</a>     <a href="log-meal.html">🍛 Log Meal</a>     <a href="detailed-meal-log.html">📜 Meal Log</a>     <a href="diet-tracker.html">📊 Diet Tracker</a>     <a href="family-profiles.html">👪 Family</a>     <a href="add-family-member.html">➕ Add Member</a>     <a href="complete-profile.html">👤 Profile Setup</a>     <a href="detailed-stats.html">📈 Detailed Stats</a>     <a href="plan-my-meal.html">🧑‍🍳 Plan My Meal</a>     <a href="index.html">🏡 Home</a>     <a href="signin.html">🚪 Sign Out</a> </div>
-
+<body>
+<nav>
+  <span class="logo">🌾 UOPO</span>
+  <button class="hamburger" onclick="openMenu()">☰</button>
+</nav>
+<div class="menu-backdrop" onclick="closeMenu()" id="menuBackdrop"></div>
+<div class="menu-drawer" id="menuDrawer">
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="log-meal.html">🍛 Log Meal</a>
+  <a href="detailed-meal-log.html">📜 Meal Log</a>
+  <a href="diet-tracker.html">📊 Diet Tracker</a>
+  <a href="family-profiles.html">👪 Family</a>
+  <a href="add-family-member.html">➕ Add Member</a>
+  <a href="complete-profile.html">👤 Profile Setup</a>
+  <a href="detailed-stats.html">📈 Detailed Stats</a>
+  <a href="plan-my-meal.html">🧑‍🍳 Plan My Meal</a>
+  <a href="index.html">🏡 Home</a>
+  <a href="signin.html">🚪 Sign Out</a>
+</div>
 <div class="container">
-    <div class="page-header">
-        <h1>➕ Add Family Member</h1>
-        <p>Add a member to your UOPO family.</p>
+  <form class="form-box" autocomplete="off">
+    <h1>Add Family Member</h1>
+    <div class="form-group">
+      <label for="famName">Full Name</label>
+      <input id="famName" type="text" required>
     </div>
-    <!-- Type selection (click goes directly to form) -->
-    <div id="type-section" class="form-section">
-        <div class="section-title">Choose Profile Type</div>
-        <div class="profile-type-selector">
-            <div class="profile-type-card" data-type="child" onclick="selectProfileType('child', this)">
-                <div class="type-icon">👦🏽</div>
-                <strong>Child</strong>
-                <div style="color:#948566;">Aarav Sharma, Ananya Sharma</div>
-            </div>
-            <div class="profile-type-card" data-type="elderly" onclick="selectProfileType('elderly', this)">
-                <div class="type-icon">👵🏽</div>
-                <strong>Elderly Parent</strong>
-                <div style="color:#948566;">Shanta Devi, Ramesh Kumar</div>
-            </div>
-            <div class="profile-type-card" data-type="emergency" onclick="selectProfileType('emergency', this)">
-                <div class="type-icon">🚨</div>
-                <strong>Emergency Contact</strong>
-                <div style="color:#948566;">Family doctor, trusted relative</div>
-            </div>
-        </div>
+    <div class="form-group">
+      <label for="famRelation">Relation</label>
+      <select id="famRelation" required>
+        <option value="">Choose…</option>
+        <option>Self</option>
+        <option>Spouse</option>
+        <option>Child</option>
+        <option>Parent</option>
+        <option>Other</option>
+      </select>
     </div>
-    <!-- Step 2: Basic Information (auto-shown) -->
-    <div id="form-section" class="form-section" style="display:none;">
-        <div class="section-title" id="profile-form-title">Basic Information</div>
-        <div class="form-group">
-            <label for="member-name">Full Name</label>
-            <input type="text" id="member-name" placeholder="e.g., Aarav Sharma">
-        </div>
-        <div class="form-group">
-            <label for="member-age">Age (years)</label>
-            <input type="number" id="member-age" placeholder="e.g., 8" min="0" max="120">
-        </div>
-        <div class="form-group">
-            <label for="member-gender">Gender</label>
-            <select id="member-gender">
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="member-relation">Relation</label>
-            <select id="member-relation">
-                <option value="">Select</option>
-                <option value="child">Child</option>
-                <option value="parent">Parent</option>
-                <option value="emergency">Emergency</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <button class="btn" onclick="createMember()">Create Profile</button>
+    <div class="form-group">
+      <label for="famAge">Age</label>
+      <input id="famAge" type="number" min="0" max="120" required>
     </div>
-    <div class="recent-family" id="recent-family" style="display:none;">
-        <strong>New Member Created!</strong>
-        <div id="family-preview"></div>
-        <button class="btn" onclick="window.location='family-profiles.html'">View in Family List</button>
+    <div class="form-group">
+      <label for="famHeight">Height (cm)</label>
+      <input id="famHeight" type="number" min="40" max="250" required>
     </div>
+    <div class="form-group">
+      <label for="famWeight">Weight (kg)</label>
+      <input id="famWeight" type="number" min="10" max="250" required>
+    </div>
+    <div class="form-actions">
+      <button class="btn" type="submit">Add Member</button>
+      <button class="btn" type="button" onclick="window.location='family-profiles.html'">Cancel</button>
+    </div>
+  </form>
 </div>
 <script>
-let personaType = "";
-function selectProfileType(type, el) {
-    personaType = type;
-    document.querySelectorAll('.profile-type-card').forEach(card=>card.classList.remove('selected'));
-    el.classList.add('selected');
-    // Go directly to form, set title
-    document.getElementById('type-section').style.display = 'none';
-    document.getElementById('form-section').style.display = 'block';
-    let title = "Basic Information";
-    if(type==="child") title="Child Profile";
-    if(type==="elderly") title="Elderly Parent Profile";
-    if(type==="emergency") title="Emergency Contact Profile";
-    document.getElementById('profile-form-title').innerText = title;
+function openMenu() {
+  document.getElementById("menuDrawer").classList.add("open");
+  document.getElementById("menuBackdrop").classList.add("show");
 }
-function createMember() {
-    const name=document.getElementById('member-name').value,
-          age=document.getElementById('member-age').value,
-          gender=document.getElementById('member-gender').value,
-          relation=document.getElementById('member-relation').value;
-    if(!name||!age||!gender||!relation) { alert("Please fill all fields"); return; }
-    // Simulate save -- show preview
-    document.getElementById('recent-family').style.display='block';
-    document.getElementById('family-preview').innerHTML = `
-      <div style="padding:10px 2px;"><b>Name:</b> ${name} <br>
-      <b>Age:</b> ${age}, <b>Gender:</b> ${gender}<br>
-      <b>Relation:</b> ${relation.charAt(0).toUpperCase()+relation.slice(1)}</div>
-    `;
-    setTimeout(()=>window.scrollTo(0,document.body.scrollHeight),200);
+function closeMenu() {
+  document.getElementById("menuDrawer").classList.remove("open");
+  document.getElementById("menuBackdrop").classList.remove("show");
 }
+// Example form handler, replace with logic as needed:
+document.querySelector('.form-box').onsubmit = function(e){
+  e.preventDefault();
+  alert("Family member added!");
+  window.location = "family-profiles.html";
+};
 </script>
-<script> function openMenu() {     document.getElementById("menuDrawer").classList.add("open");     document.getElementById("menuBackdrop").classList.add("show"); } function closeMenu() {     document.getElementById("menuDrawer").classList.remove("open");     document.getElementById("menuBackdrop").classList.remove("show"); } </script></body>
+</body>
 </html>
