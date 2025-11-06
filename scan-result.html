@@ -1,76 +1,123 @@
-<!-- Only the detection preview section and JS are different; branding/UI is unchanged! -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- ... all your previous UOPO head and style ... -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan Result - UOPO</title>
+<style>
+    body {
+        background: #FEF8F0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0; padding: 0;
+    }
+    nav { background: white; padding: 15px 30px; margin-bottom: 30px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+    nav .logo { font-size: 24px; font-weight: bold; color: #D4A574; }
+    nav a { margin-left: 20px; color: #4A3F35; text-decoration: none; font-size: 14px; }
+    nav a:hover { color: #D4A574; }
+    .container { max-width: 480px; margin: 40px auto 0 auto; background: white; border-radius: 16px; box-shadow: 0 4px 32px rgba(139,111,71,0.10); padding: 32px 18px; }
+    .centered { text-align: center; }
+    .section { margin-bottom: 30px; }
+    .detection-preview img { max-width: 220px; margin: 8px auto; border-radius: 12px; box-shadow: 0 4px 15px #e8dcc8; display: block;}
+    .food-name { font-size: 24px; font-weight: 600; color: #4A3F35; }
+    .category, .confidence, .portion-label { color: #9B8B7E; font-size: 14px; }
+    .portion-selector, .meal-time-selector { margin: 14px 0 18px 0; }
+    input, select { width: 95%; padding: 11px; border: 1px solid #D4A574; border-radius: 6px; font-size: 15px; margin-top: 6px;}
+    input:focus, select:focus { border-color: #8B6F47; outline: none; }
+    .nutrition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; margin: 20px 0; }
+    .nutrition-item { background: #FEF8F0; border-radius: 8px; padding: 10px; text-align: center; color: #8B6F47;}
+    .nutrition-label { font-size: 13px; color: #9B8B7E;}
+    .nutrition-value { font-weight: 700; font-size: 17px;}
+    .btn { background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%); color: white; border: none; border-radius: 8px; padding: 15px; width: 100%; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 20px;}
+    .btn:hover { background: #8B6F47; }
+    .msg { background: #e8f5e9; color: #2E7D32; border-radius: 8px; padding: 14px; text-align: center; margin-bottom: 12px; margin-top: 15px; display: none;}
+    @media (max-width:600px){.container{padding:14px 3vw;} .nutrition-grid{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
-    <nav>
-        <div class="logo">🌾 UOPO</div>
-        <div>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="log-meal.html">Rescan</a>
-            <a href="index.html">Home</a>
-        </div>
-    </nav>
-    <div class="container">
-        <div class="result-header">
-            <h1 id="food-name">Food Name</h1>
-            <div class="category" id="food-category">Category</div>
-            <div class="detection-confidence">✓ Detection Confidence: 94%</div>
-        </div>
-        <div class="card">
-            <div class="success-message" id="success-message">
-                ✓ Meal logged successfully! 🎉
-            </div>
-            <h2>Detection Preview</h2>
-            <div class="detection-preview">
-                <!-- JS will load a real meal photo if present -->
-                <div class="preview-box">📸</div>
-                <div class="preview-label">Bounding Box Detected</div>
-            </div>
-            <div class="portion-selector">
-                <label for="portion">Portion Size</label>
-                <input type="text" id="portion" placeholder="e.g., 250g or 1 bowl" value="">
-            </div>
-            <div class="meal-time-selector">
-                <label for="meal-time">When did you eat this?</label>
-                <select id="meal-time">
-                    <option value="">Select Meal Time</option>
-                    <option value="breakfast">🌅 Breakfast</option>
-                    <option value="lunch">☀️ Lunch</option>
-                    <option value="dinner">🌙 Dinner</option>
-                    <option value="snack">🍎 Snack</option>
-                </select>
-            </div>
-        </div>
-        <!-- ... rest of your UI (nutrition values/cards, editable fields, action buttons) ... -->
+<nav>
+    <div class="logo">🌾 UOPO</div>
+    <div>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="log-meal.html">Rescan</a>
+        <a href="index.html">Home</a>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Real meal photo preview
-            const mealPhoto = sessionStorage.getItem('mealPhoto');
-            if (mealPhoto) {
-                document.querySelector('.detection-preview').innerHTML = `
-                    <div><img src="${mealPhoto}" style="max-width:220px;box-shadow:0 6px 18px #c7ad83;border-radius:10px;"></div>
-                    <div class="preview-label">Your meal photo</div>
-                `;
-            }
-            // (your existing detectionResult/sessionStorage logic for nutrition goes here)
-        });
-        function logMeal() {
-            const mealTime = document.getElementById('meal-time').value;
-            if (!mealTime) {
-                alert('Please select a meal time');
-                return;
-            }
-            const successMsg = document.getElementById('success-message');
-            successMsg.classList.add('show');
-            event.target.disabled = true;
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 2000);
-        }
-    </script>
+</nav>
+<div class="container">
+    <div class="centered">
+        <div class="section detection-preview"></div>
+        <div class="section">
+            <div class="food-name" id="food-name"></div>
+            <div class="category" id="food-category"></div>
+            <div class="confidence" id="detect-confidence"></div>
+        </div>
+    </div>
+    <div class="section portion-selector">
+        <label class="portion-label" for="portion">Portion Size</label>
+        <input type="text" id="portion" value="1 plate">
+    </div>
+    <div class="section meal-time-selector">
+        <label class="portion-label" for="meal-time">When did you eat this?</label>
+        <select id="meal-time">
+            <option value="">Select Meal Time</option>
+            <option value="breakfast">🌅 Breakfast</option>
+            <option value="lunch">☀️ Lunch</option>
+            <option value="dinner">🌙 Dinner</option>
+            <option value="snack">🍎 Snack</option>
+        </select>
+    </div>
+    <div class="nutrition-grid" id="nutrition-grid"></div>
+    <div class="msg" id="success-msg">✓ Meal logged! Redirecting to meal log…</div>
+    <button class="btn" onclick="submitMeal()">Log This Meal</button>
+</div>
+<script>
+const foodList = [
+  {name: "Chicken Biryani", category: "Rice Dishes", nutrition: {calories:450, protein:25, carbs:45, fat:18}},
+  {name: "Idli with Sambar", category: "South Indian", nutrition: {calories:120, protein:4, carbs:22, fat:1}},
+  {name: "Dosa", category: "South Indian", nutrition: {calories:150, protein:3, carbs:25, fat:5}},
+  {name: "Upma", category: "Breakfast", nutrition: {calories:160, protein:4, carbs:24, fat:5}},
+  {name: "Paneer Tikka", category: "Appetizers", nutrition: {calories:160, protein:14, carbs:4, fat:9}}
+];
+// Pick random food for demo
+let thisFood = foodList[Math.floor(Math.random()*foodList.length)];
+document.getElementById('food-name').innerText = thisFood.name;
+document.getElementById('food-category').innerText = "Category: "+thisFood.category;
+document.getElementById('detect-confidence').innerText = "Confidence: "+(90+Math.floor(Math.random()*8))+"%";
+// Nutrition display
+let ng = document.getElementById('nutrition-grid');
+ng.innerHTML = `<div class="nutrition-item"><div class="nutrition-value">${thisFood.nutrition.calories}</div><div class="nutrition-label">Calories</div></div>
+<div class="nutrition-item"><div class="nutrition-value">${thisFood.nutrition.protein}g</div><div class="nutrition-label">Protein</div></div>
+<div class="nutrition-item"><div class="nutrition-value">${thisFood.nutrition.carbs}g</div><div class="nutrition-label">Carbs</div></div>
+<div class="nutrition-item"><div class="nutrition-value">${thisFood.nutrition.fat}g</div><div class="nutrition-label">Fat</div></div>`;
+
+// photo preview
+const photo = sessionStorage.getItem('mealPhoto');
+if(photo) {
+  document.querySelector('.detection-preview').innerHTML =
+    `<img src="${photo}"><div class="preview-label">Your meal photo</div>`;
+} else {
+  document.querySelector('.detection-preview').innerHTML =
+    `<div style="font-size:43px;">📸</div><div class="preview-label">No photo this time</div>`;
+}
+
+function submitMeal() {
+    const portion = document.getElementById('portion').value;
+    const mealTime = document.getElementById('meal-time').value;
+    if (!mealTime) { alert('Please select a meal time!'); return; }
+    // Save to "recent meals" for detailed log
+    let meals = JSON.parse(localStorage.getItem('recentMeals') || '[]');
+    meals.unshift({
+        name: thisFood.name,
+        category: thisFood.category,
+        nutrition: thisFood.nutrition,
+        time: mealTime,
+        photo: photo,
+        portion: portion,
+        date: new Date().toLocaleString()
+    });
+    localStorage.setItem('recentMeals', JSON.stringify(meals.slice(0,6)));
+    document.getElementById('success-msg').style.display='block';
+    setTimeout(() => location.href='detailed-meal-log.html', 1500);
+}
+</script>
 </body>
 </html>
