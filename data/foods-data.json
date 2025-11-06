@@ -1,1 +1,304 @@
-
+{
+  "foods": [
+    {
+      "id": 1,
+      "name": "Chicken Biryani",
+      "category": "Rice Dishes",
+      "portions": [
+        {
+          "size": "1 plate (250g)",
+          "calories": 450,
+          "protein": 25,
+          "carbs": 45,
+          "fat": 18,
+          "fiber": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Idli with Sambar",
+      "category": "South Indian",
+      "portions": [
+        {
+          "size": "2 idlis",
+          "calories": 120,
+          "protein": 4,
+          "carbs": 22,
+          "fat": 1,
+          "fiber": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Dosa",
+      "category": "South Indian",
+      "portions": [
+        {
+          "size": "1 medium dosa",
+          "calories": 150,
+          "protein": 3,
+          "carbs": 25,
+          "fat": 5,
+          "fiber": 1.5
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Haleem",
+      "category": "Meat Dishes",
+      "portions": [
+        {
+          "size": "1 bowl (200g)",
+          "calories": 280,
+          "protein": 22,
+          "carbs": 18,
+          "fat": 12,
+          "fiber": 3
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Mirchi Ka Salan",
+      "category": "Vegetarian",
+      "portions": [
+        {
+          "size": "1 serving (150g)",
+          "calories": 180,
+          "protein": 2,
+          "carbs": 12,
+          "fat": 14,
+          "fiber": 2
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Hyderabadi Dum Pukht",
+      "category": "Meat Dishes",
+      "portions": [
+        {
+          "size": "1 serving (250g)",
+          "calories": 320,
+          "protein": 28,
+          "carbs": 20,
+          "fat": 15,
+          "fiber": 1
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Galauti Kebab",
+      "category": "Meat Dishes",
+      "portions": [
+        {
+          "size": "2 pieces",
+          "calories": 160,
+          "protein": 12,
+          "carbs": 8,
+          "fat": 9,
+          "fiber": 0
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Khichdi",
+      "category": "Light Meals",
+      "portions": [
+        {
+          "size": "1 bowl (200g)",
+          "calories": 180,
+          "protein": 6,
+          "carbs": 28,
+          "fat": 5,
+          "fiber": 2
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Upma",
+      "category": "Breakfast",
+      "portions": [
+        {
+          "size": "1 serving (180g)",
+          "calories": 160,
+          "protein": 4,
+          "carbs": 24,
+          "fat": 5,
+          "fiber": 2
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Pesarattu",
+      "category": "South Indian",
+      "portions": [
+        {
+          "size": "1 crepe",
+          "calories": 140,
+          "protein": 5,
+          "carbs": 20,
+          "fat": 4,
+          "fiber": 1.5
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Nihari",
+      "category": "Meat Dishes",
+      "portions": [
+        {
+          "size": "1 serving (250g)",
+          "calories": 340,
+          "protein": 30,
+          "carbs": 15,
+          "fat": 18,
+          "fiber": 1
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Bagara Rice",
+      "category": "Rice Dishes",
+      "portions": [
+        {
+          "size": "1 cup (180g)",
+          "calories": 280,
+          "protein": 8,
+          "carbs": 45,
+          "fat": 6,
+          "fiber": 1
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Tomato Rice",
+      "category": "Rice Dishes",
+      "portions": [
+        {
+          "size": "1 cup (180g)",
+          "calories": 220,
+          "protein": 6,
+          "carbs": 40,
+          "fat": 4,
+          "fiber": 1.5
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Vegetable Pulao",
+      "category": "Rice Dishes",
+      "portions": [
+        {
+          "size": "1 cup (180g)",
+          "calories": 240,
+          "protein": 6,
+          "carbs": 42,
+          "fat": 5,
+          "fiber": 2
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Chicken Curry",
+      "category": "Curries",
+      "portions": [
+        {
+          "size": "1 serving (200g)",
+          "calories": 210,
+          "protein": 22,
+          "carbs": 8,
+          "fat": 10,
+          "fiber": 1
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Paneer Tikka",
+      "category": "Appetizers",
+      "portions": [
+        {
+          "size": "4 pieces",
+          "calories": 160,
+          "protein": 14,
+          "carbs": 4,
+          "fat": 9,
+          "fiber": 0
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Samosa",
+      "category": "Snacks",
+      "portions": [
+        {
+          "size": "1 piece",
+          "calories": 130,
+          "protein": 3,
+          "carbs": 15,
+          "fat": 6,
+          "fiber": 1
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Falafel",
+      "category": "Snacks",
+      "portions": [
+        {
+          "size": "3 pieces",
+          "calories": 150,
+          "protein": 5,
+          "carbs": 14,
+          "fat": 8,
+          "fiber": 2.5
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Vegetable Biryani",
+      "category": "Rice Dishes",
+      "portions": [
+        {
+          "size": "1 plate (250g)",
+          "calories": 320,
+          "protein": 8,
+          "carbs": 48,
+          "fat": 10,
+          "fiber": 3
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Lentil Soup",
+      "category": "Soups",
+      "portions": [
+        {
+          "size": "1 bowl (250ml)",
+          "calories": 130,
+          "protein": 8,
+          "carbs": 20,
+          "fat": 1,
+          "fiber": 4
+        }
+      ]
+    }
+  ]
+}
