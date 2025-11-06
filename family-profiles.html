@@ -5,103 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Profiles - UOPO</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #FEF8F0; min-height: 100vh; padding: 20px; }
-        nav { background: white; padding: 15px 30px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(139, 111, 71, 0.08); display: flex; justify-content: space-between; align-items: center; }
-        nav .logo { font-size: 24px; font-weight: bold; color: #D4A574; }
-        nav a { margin-left: 20px; text-decoration: none; color: #4A3F35; font-size: 14px; }
-        nav a:hover { color: #D4A574; }
-        .container { max-width: 900px; margin: 40px auto; }
-        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        h1 { color: #4A3F35; margin-bottom: 10px; }
-        .subtitle { color: #9B8B7E; margin-bottom: 20px; font-size: 14px; }
-        .btn-add { background: #D4A574; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; border: none; cursor: pointer; }
-        .btn-add:hover { background: #8B6F47; }
-        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .profile-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(139, 111, 71, 0.08); border-left: 5px solid #D4A574; }
-        .profile-header { display: flex; align-items: center; margin-bottom: 20px; }
-        .avatar { width: 50px; height: 50px; border-radius: 50%; background: #D4A574; color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-right: 15px; }
-        .profile-name { font-size: 18px; font-weight: 600; color: #4A3F35; }
-        .profile-relation { font-size: 12px; color: #9B8B7E; }
-        .profile-info { margin-bottom: 15px; font-size: 14px; color: #555; }
-        .profile-goal { background: #FEF8F0; padding: 10px 15px; border-radius: 6px; font-size: 13px; color: #4A3F35; margin-bottom: 15px; }
-        .btn { display: inline-block; padding: 10px 15px; background: #D4A574; color: white; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 600; transition: background 0.3s; border: none; cursor: pointer; width: 100%; text-align: center; }
-        .btn:hover { background: #8B6F47; }
-        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+        nav { background: white; padding: 15px 30px; margin-bottom: 28px; border-radius: 8px; box-shadow: 0 2px 10px #e8dcc8; display: flex; justify-content: space-between; align-items: center;}
+        nav .logo { font-size: 24px; font-weight: bold; color: #D4A574;}
+        nav a { margin-left: 20px; text-decoration: none; color: #4A3F35; font-size: 15px;}
+        nav a:hover { color: #D4A574;}
+        .container { max-width: 950px; margin: 30px auto; }
+        h1{margin-bottom:10px;color:#4A3F35;}
+        .subtitle{color: #9B8B7E; margin-bottom:22px;}
+        .profiles-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:23px; margin-bottom:40px;}
+        .profile-card{background:white; padding:24px 18px; border-radius:12px; box-shadow:0 2px 10px #e8dcc8;}
+        .profile-header{display:flex;align-items:center; margin-bottom:17px;}
+        .avatar{width:52px;height:52px; border-radius:50%; background:#D4A574; color:white; display:flex;align-items:center;justify-content:center;font-size:24px;margin-right:15px;}
+        .profile-name{font-size:19px;font-weight:600;color:#4A3F35;}
+        .profile-relation{font-size:13px;color:#9B8B7E;}
+        .profile-info{margin-bottom:8px;font-size:14px;color:#555;}
+        .profile-goal{background: #FEF8F0;padding:10px 15px; border-radius:6px;font-size:13px;color:#4A3F35;margin-bottom:12px;}
+        .btn{display:inline-block; padding:10px 15px; background:#D4A574;color:white; text-decoration:none; border-radius:6px;font-size:13px;font-weight:600; transition:.3s; border:none;cursor:pointer;width:100%;text-align:center;}
+        .btn:hover{background:#8B6F47;}
+        .btn-add{background:#D4A574; color:white; padding:12px 24px; border-radius:8px;font-weight:600;font-size:14px;border:none;margin-bottom:20px;}
+        .btn-add:hover{background:#8B6F47;}
+        .highlight-card { border-left: 5px solid #2e7d32; background: #e8f5e9;}
+        @media (max-width: 700px) {.profiles-grid{grid-template-columns:1fr;}}
     </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">🌾 UOPO</div>
-        <div>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="log-meal.html">Log Meal</a>
-            <a href="family-profiles.html">Family</a>
-            <a href="diet-tracker.html">Diet Tracker</a>
-            <a href="signin.html">Sign Out</a>
-        </div>
-    </nav>
-    
-    <div class="container">
-        <div class="header-section">
-            <div>
-                <h1>Family Profiles</h1>
-                <p class="subtitle">Manage family members and track their nutrition goals</p>
-            </div>
-            <a href="add-family-member.html" class="btn-add">➕ Add Family Member</a>
-        </div>
-        
-        <div class="profiles-grid">
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="avatar">👤</div>
-                    <div>
-                        <div class="profile-name">John Doe</div>
-                        <div class="profile-relation">You (Self)</div>
-                    </div>
-                </div>
-                <div class="profile-info"><strong>Age:</strong> 35 years</div>
-                <div class="profile-info"><strong>Height:</strong> 175 cm</div>
-                <div class="profile-info"><strong>Current Weight:</strong> 80 kg</div>
-                <div class="profile-goal">Goal: Weight Loss (75 kg)</div>
-                <button class="btn">View Details</button>
-            </div>
-            
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="avatar" style="background: #2C5F5F;">👩</div>
-                    <div>
-                        <div class="profile-name">Sarah Doe</div>
-                        <div class="profile-relation">Spouse</div>
-                    </div>
-                </div>
-                <div class="profile-info"><strong>Age:</strong> 32 years</div>
-                <div class="profile-info"><strong>Height:</strong> 165 cm</div>
-                <div class="profile-info"><strong>Current Weight:</strong> 62 kg</div>
-                <div class="profile-goal">Goal: Fitness & Muscle Gain</div>
-                <button class="btn">View Details</button>
-            </div>
-            
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="avatar" style="background: #6B8E23;">👧</div>
-                    <div>
-                        <div class="profile-name">Emma Doe</div>
-                        <div class="profile-relation">Child</div>
-                    </div>
-                </div>
-                <div class="profile-info"><strong>Age:</strong> 8 years</div>
-                <div class="profile-info"><strong>Height:</strong> 130 cm</div>
-                <div class="profile-info"><strong>Current Weight:</strong> 28 kg</div>
-                <div class="profile-goal">Goal: Healthy Growth</div>
-                <a href="emma-doe-profile.html" class="btn">View Details</a>
-            </div>
-        </div>
-        
-        <div class="action-buttons">
-            <a href="dashboard.html" class="btn" style="background: #9B8B7E;">← Back to Dashboard</a>
-            <a href="add-family-member.html" class="btn">➕ Add Another Member</a>
-        </div>
+<nav>
+    <div class="logo">🌾 UOPO</div>
+    <div>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="add-family-member.html">Add Member</a>
+        <a href="index.html">Home</a>
     </div>
+</nav>
+<div class="container">
+    <h1>Family Profiles</h1>
+    <p class="subtitle">Manage your family’s records and goals.</p>
+    <button class="btn-add" onclick="window.location='add-family-member.html'">➕ Add Family Member</button>
+    <div class="profiles-grid" id="famGrid"></div>
+</div>
+<script>
+// Simulate family list, recently created member at top if present
+let stored = sessionStorage.getItem("recentFamilyMember");
+let mainList = [
+    { avatar:'🧑🏽‍💼', name:"Rahul Sharma", relation:"Self", age:32, height:172, weight:68, goal:"Weight Loss (65 kg)", highlight:false },
+    { avatar:'👩🏽', name:"Priya Sharma", relation:"Spouse", age:31, height:162, weight:59, goal:"Healthy Maintenance", highlight:false },
+    { avatar:'👦🏽', name:"Aarav Sharma", relation:"Child", age:8, height:123, weight:28, goal:"Healthy Growth", highlight:false },
+    { avatar:'👵🏽', name:"Shanta Devi", relation:"Mother", age:64, height:153, weight:56, goal:"Diabetes Management", highlight:false }
+];
+let famGrid = document.getElementById("famGrid");
+let data = [...mainList];
+if (stored) {
+    let m = JSON.parse(stored);
+    m.highlight = true;
+    data.unshift(m);
+}
+famGrid.innerHTML = "";
+data.forEach(function(member){
+    famGrid.innerHTML += `
+        <div class="profile-card${member.highlight?' highlight-card':''}">
+            <div class="profile-header">
+                <div class="avatar">${member.avatar||"👤"}</div>
+                <div>
+                    <div class="profile-name">${member.name}</div>
+                    <div class="profile-relation">${member.relation}</div>
+                </div>
+            </div>
+            <div class="profile-info"><strong>Age:</strong> ${member.age} years</div>
+            <div class="profile-info"><strong>Height:</strong> ${member.height} cm</div>
+            <div class="profile-info"><strong>Current Weight:</strong> ${member.weight} kg</div>
+            <div class="profile-goal">Goal: ${member.goal||"--"}</div>
+            <button class="btn">View Details</button>
+        </div>
+    `;
+});
+// Optionally, sessionStorage.removeItem("recentFamilyMember"); // clear highlight after display
+</script>
 </body>
 </html>
