@@ -93,3 +93,283 @@ function updateSteps() {
 </script>
 </body>
 </html>
+<!-- Step 1: Basic Information with Indian default names -->
+<div id="step-1" class="form-section active">
+    <div class="step-indicator">
+        <div class="step active">1</div>
+        <div class="step">2</div>
+        <div class="step">3</div>
+        <div class="step">4</div>
+    </div>
+    <div class="section-header">
+        <h2 class="section-title">Basic Information</h2>
+        <button class="edit-btn" onclick="toggleEdit('basic', this)">Edit</button>
+    </div>
+    <div class="save-success" id="save-basic"></div>
+    <div class="form-row full">
+        <div class="form-group">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" placeholder="e.g. Rahul Sharma" value="Rahul Sharma" disabled>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="age">Age (years)</label>
+            <input type="number" id="age" placeholder="e.g., 28" min="0" max="120" value="32" disabled>
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" disabled>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="height">Height (cm)</label>
+            <input type="number" id="height" placeholder="e.g., 172" min="50" max="250" value="172" disabled>
+        </div>
+        <div class="form-group">
+            <label for="weight">Current Weight (kg)</label>
+            <input type="number" id="weight" placeholder="e.g., 68" min="5" max="300" value="68" disabled>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" disabled>
+                <option value="">Select Gender</option>
+                <option value="male" selected>Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="nutrition-goal">Primary Nutrition Goal</label>
+            <select id="nutrition-goal" disabled>
+                <option value="">Select Goal</option>
+                <option value="weight-loss" selected>Weight Loss</option>
+                <option value="weight-gain">Weight Gain</option>
+                <option value="maintenance">Healthy Maintenance</option>
+                <option value="muscle-gain">Muscle Gain</option>
+            </select>
+        </div>
+    </div>
+    <div id="save-buttons-basic" style="display: none; margin-top: 20px;">
+        <div class="form-navigation">
+            <button class="btn btn-secondary" onclick="cancelEdit('basic')">Cancel</button>
+            <button class="btn" onclick="saveSection('basic')">Save Changes</button>
+        </div>
+    </div>
+    <div class="form-navigation" style="margin-top: 20px;">
+        <button class="btn btn-secondary" onclick="goToDashboard()">← Dashboard</button>
+        <button class="btn" onclick="nextStep()">Continue →</button>
+    </div>
+</div>
+
+<!-- Step 2: Special Conditions (Pregnancy/Lactation, for eligible profiles only) -->
+<div id="step-2" class="form-section">
+    <div class="step-indicator">
+        <div class="step completed">1</div>
+        <div class="step active">2</div>
+        <div class="step">3</div>
+        <div class="step">4</div>
+    </div>
+    <div class="section-header">
+        <h2 class="section-title">Special Conditions</h2>
+        <button class="edit-btn" onclick="toggleEdit('conditions', this)">Edit</button>
+    </div>
+    <div class="save-success" id="save-conditions"></div>
+    <div class="special-section" id="preg-n-lac-section" style="display:none;">
+        <label>
+            <input type="checkbox" id="pregnant" onchange="toggleConditionDetails('pregnant-details')" disabled>
+            <strong>Currently Pregnant</strong>
+        </label>
+        <div class="condition-details" id="pregnant-details">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="trimester">Trimester</label>
+                    <select id="trimester" disabled>
+                        <option value="">Select Trimester</option>
+                        <option value="first">First (0-3 months)</option>
+                        <option value="second">Second (4-6 months)</option>
+                        <option value="third">Third (7-9 months)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expected-due">Expected Due Date</label>
+                    <input type="date" id="expected-due" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="special-section" id="lactating-section" style="display:none;">
+        <label>
+            <input type="checkbox" id="lactating" onchange="toggleConditionDetails('lactating-details')" disabled>
+            <strong>Currently Lactating</strong>
+        </label>
+        <div class="condition-details" id="lactating-details">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="lactating-months">How many months of lactation?</label>
+                    <input type="number" id="lactating-months" placeholder="e.g., 3" min="0" max="36" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="feeding-type">Feeding Type</label>
+                    <select id="feeding-type" disabled>
+                        <option value="">Select Type</option>
+                        <option value="exclusive">Exclusive Breastfeeding</option>
+                        <option value="partial">Partial (Mixed Feeding)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="save-buttons-conditions" style="display: none; margin-top: 20px;">
+        <div class="form-navigation">
+            <button class="btn btn-secondary" onclick="cancelEdit('conditions')">Cancel</button>
+            <button class="btn" onclick="saveSection('conditions')">Save Changes</button>
+        </div>
+    </div>
+    <div class="form-navigation">
+        <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+        <button class="btn" onclick="nextStep()">Continue →</button>
+    </div>
+</div>
+
+<!-- Step 3: Health & Medical -->
+<div id="step-3" class="form-section">
+    <div class="step-indicator">
+        <div class="step completed">1</div>
+        <div class="step completed">2</div>
+        <div class="step active">3</div>
+        <div class="step">4</div>
+    </div>
+    <div class="section-header">
+        <h2 class="section-title">Health & Medical Information</h2>
+        <button class="edit-btn" onclick="toggleEdit('medical', this)">Edit</button>
+    </div>
+    <div class="save-success" id="save-medical"></div>
+    <div class="special-section">
+        <h3>🏥 Physiological Conditions</h3>
+        <div class="checkbox-group" id="conditions-group">
+            <div class="checkbox-item"><input type="checkbox" value="Diabetes" disabled><label>Diabetes</label></div>
+            <div class="checkbox-item"><input type="checkbox" value="Hypertension" disabled><label>Hypertension</label></div>
+            <div class="checkbox-item"><input type="checkbox" value="Asthma" disabled><label>Asthma</label></div>
+            <div class="checkbox-item"><input type="checkbox" value="Lactose Intolerance" disabled><label>Lactose Intolerance</label></div>
+            <div class="checkbox-item"><input type="checkbox" value="Celiac/Gluten" disabled><label>Celiac/Gluten Sensitivity</label></div>
+            <div class="checkbox-item"><input type="checkbox" value="Anemia" disabled><label>Anemia</label></div>
+        </div>
+        <div class="form-group">
+            <label for="other-condition">Other Condition (if not listed)</label>
+            <input type="text" id="other-condition" placeholder="e.g., Hypothyroidism" disabled>
+        </div>
+    </div>
+    <div class="form-row full">
+        <div class="form-group">
+            <label for="allergies">Food Allergies & Intolerances (Details)</label>
+            <textarea id="allergies" rows="3" placeholder="e.g., Peanut (severe), Shellfish (mild)" disabled></textarea>
+        </div>
+    </div>
+    <div id="save-buttons-medical" style="display: none; margin-top: 20px;">
+        <div class="form-navigation">
+            <button class="btn btn-secondary" onclick="cancelEdit('medical')">Cancel</button>
+            <button class="btn" onclick="saveSection('medical')">Save Changes</button>
+        </div>
+    </div>
+    <div class="form-navigation">
+        <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+        <button class="btn" onclick="nextStep()">Continue →</button>
+    </div>
+</div>
+
+<!-- Step 4: Emergency Contacts -->
+<div id="step-4" class="form-section">
+    <div class="step-indicator">
+        <div class="step completed">1</div>
+        <div class="step completed">2</div>
+        <div class="step completed">3</div>
+        <div class="step active">4</div>
+    </div>
+    <div class="section-header">
+        <h2 class="section-title">Emergency Contacts</h2>
+        <button class="edit-btn" onclick="toggleEdit('emergency', this)">Edit</button>
+    </div>
+    <div class="save-success" id="save-emergency"></div>
+    <div class="emergency-section">
+        <h3>🚨 Link Emergency Contacts (up to 5)</h3>
+        <p style="color: #721c24; font-size: 13px; margin-bottom: 15px;">
+            Link trusted contacts who can access your profile in case of medical emergency.
+        </p>
+        <div class="contact-list" id="contact-list"></div>
+        <div id="add-contact-form" style="display: none; background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contact-name">Contact Name</label>
+                    <input type="text" id="contact-name" placeholder="Full name" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="contact-relation">Relationship</label>
+                    <select id="contact-relation" disabled>
+                        <option value="">Select Relationship</option>
+                        <option value="spouse">Spouse</option>
+                        <option value="parent">Parent</option>
+                        <option value="child">Child</option>
+                        <option value="sibling">Sibling</option>
+                        <option value="friend">Friend</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contact-email">Email/Phone</label>
+                    <input type="text" id="contact-email" placeholder="Email or phone number" disabled>
+                </div>
+            </div>
+            <button class="btn" onclick="addContact()" style="width: 100%;">Add Contact</button>
+            <button class="btn btn-secondary" style="width:100%;" onclick="showProfileLinkModal()">Link to an Existing UOPO Profile</button>
+        </div>
+        <button class="btn" id="add-contact-btn" onclick="toggleAddContact()" style="width: 100%; margin-top: 15px;">+ Add Emergency Contact</button>
+    </div>
+    <div id="save-buttons-emergency" style="display: none; margin-top: 20px;">
+        <div class="form-navigation">
+            <button class="btn btn-secondary" onclick="cancelEdit('emergency')">Cancel</button>
+            <button class="btn" onclick="saveSection('emergency')">Save Changes</button>
+        </div>
+    </div>
+    <!-- The modal for linking profiles can be included or loaded as emergency-contact-dialog.html -->
+    <div id="linkProfileModal" style="display:none; position:fixed; z-index:1002; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.13);">
+        <div style="background:white;max-width:360px;margin:100px auto 0 auto;padding:28px 18px; border-radius:14px;box-shadow:0 12px 26px #9d8b74;">
+            <h3 style="color:#8B6F47;margin-bottom:18px;">Link Existing UOPO Profile</h3>
+            <div class="form-group">
+                <label>Select profile</label>
+                <select id="profile-link-select">
+                    <option value="">Select...</option>
+                    <option value="priya.sharma">Priya Sharma (Spouse)</option>
+                    <option value="aarav.sharma">Aarav Sharma (Child)</option>
+                    <option value="shanta.devi">Shanta Devi (Parent)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Relationship</label>
+                <select id="profile-link-relationship">
+                    <option value="">Select...</option>
+                    <option value="spouse">Spouse</option>
+                    <option value="parent">Parent</option>
+                    <option value="child">Child</option>
+                    <option value="sibling">Sibling</option>
+                    <option value="friend">Friend</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button class="btn" style="width:100%;" onclick="linkProfileContact()">Link</button>
+            <button class="btn btn-secondary" style="width:100%;margin-top:7px;" onclick="hideProfileLinkModal()">Cancel</button>
+        </div>
+    </div>
+    <div class="decision-box" style="margin-top:12px;">
+        <h3>You're all set! What would you like to do?</h3>
+        <div class="decision-buttons">
+            <button class="btn btn-secondary" onclick="goToDashboard()">Go to Dashboard</button>
+            <button class="btn" onclick="completeProfile()">Complete & View Profile</button>
+        </div>
+    </div>
+</div>
