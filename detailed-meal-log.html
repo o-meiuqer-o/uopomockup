@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meal Log - UOPO</title>
+<style>
+    body { background: #FEF8F0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin:0;padding:0;}
+    nav { background: white; padding: 15px 30px; border-radius: 8px; box-shadow: 0 2px 12px #e8dcc8; margin-bottom: 28px; display: flex; justify-content: space-between;}
+    .logo { font-size: 24px; font-weight: bold; color: #D4A574;}
+    nav a { margin-left: 22px;text-decoration:none;color:#4A3F35;}
+    nav a:hover { color: #D4A574;}
+    .container { max-width:480px; margin: 38px auto 0 auto; background: white; border-radius: 16px; box-shadow: 0 4px 32px rgba(139,111,71,0.10); padding: 34px 16px;}
+    h1{margin-top:0;margin-bottom:12px;font-size:27px;text-align:center;color:#8B6F47;}
+    .meal-list { display: flex; flex-direction: column; gap: 18px; }
+    .meal-card {padding:14px 8px 9px 8px; border-radius:10px; background:#FEF8F0; box-shadow:0 2px 10px #ece0d0; display:flex;align-items:center;}
+    .meal-photo img{width:54px; height:54px; object-fit:cover; border-radius:7px; box-shadow:0 3px 13px #e2d8c8;}
+    .meal-info { margin-left:18px; flex:1;}
+    .meal-title { font-size:17px;font-weight:600;color:#4A3F35;}
+    .meal-desc {font-size:13px;color:#8B6F47;}
+    .meal-time {font-size:13px;color:#2C5F5F;margin-top:2px;}
+    .nutrition-box{margin-top:7px;font-size:12px;color:#7a774b;}
+    .highlight {
+        background:linear-gradient(92deg,#D4A574 20%,#8B6F47 90%);
+        color:white;border-radius:7px;font-size:14px;
+        box-shadow:0 4px 18px #e4dab8;padding:8px;margin-bottom:7px;}
+    @media (max-width:600px){
+      .container{padding:8px 3vw;}
+      .meal-card{flex-direction:column;align-items:flex-start;}
+      .meal-info{margin-left:0;}
+    }
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">🌾 UOPO</div>
+  <div>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="log-meal.html">Log New</a>
+    <a href="index.html">Home</a>
+  </div>
+</nav>
+<div class="container">
+  <h1>Your Recent Meals</h1>
+  <div class="meal-list" id="mealList"></div>
+</div>
+<script>
+const randomPhotos = [
+    "https://images.unsplash.com/photo-1464306076886-debca5e8a6b0?auto=format&fit=crop&w=100&q=80",
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=100&q=80",
+    "https://images.unsplash.com/photo-1481931098730-318b6f776db0?auto=format&fit=crop&w=100&q=80"
+];
+const randomFood = [
+  {name:"Moong Dal Cheela",cat:"Breakfast",nut:{calories:110,protein:7,carbs:13,fat:3}},
+  {name:"Egg Curry",cat:"Lunch",nut:{calories:220,protein:14,carbs:7,fat:11}},
+  {name:"Fruit Chaat",cat:"Snack",nut:{calories:70,protein:1,carbs:16,fat:0}},
+  {name:"Veg Pulao",cat:"Lunch",nut:{calories:200,protein:5,carbs:36,fat:4}},
+  {name:"Chicken Soup",cat:"Dinner",nut:{calories:160,protein:12,carbs:6,fat:7}}
+];
+let data = [];
+try{data=JSON.parse(localStorage.getItem('recentMeals')||'[]')||[];}catch{data=[];}
+if(data.length<3){
+  for(let i=0;i<3;i++){//populate random meals
+     let item=randomFood[Math.floor(Math.random()*randomFood.length)];
+     data.push({name:item.name,category:item.cat,photo:randomPhotos[Math.floor(Math.random()*3)],portion:"1 bowl",
+        nutrition:item.nut,time:item.cat,date:"2025-11-04 13:00"});
+  }
+  localStorage.setItem('recentMeals',JSON.stringify(data));
+}
+// Render all meals
+let ml=document.getElementById('mealList');
+ml.innerHTML="";
+data.forEach((item,i)=>{
+  let isLatest = (i===0 && item.photo && item.photo.startsWith('data:image/'));
+  ml.innerHTML +=
+    `<div class="meal-card${isLatest?' highlight':''}">
+      <div class="meal-photo"><img src="${item.photo||randomPhotos[i%3]}"></div>
+      <div class="meal-info">
+        <div class="meal-title">${item.name||'Unknown'}</div>
+        <div class="meal-desc">${item.category||item.time||''} ・ ${item.portion||'1 plate'}</div>
+        <div class="nutrition-box">Cals: ${item.nutrition.calories||'--'} | Prot: ${item.nutrition.protein||'--'}g | Carbs: ${item.nutrition.carbs||'--'}g | Fat: ${item.nutrition.fat||'--'}g</div>
+        <div class="meal-time">Logged: ${item.date||'--'} ${isLatest?'<b>(just now)</b>':''}</div>
+      </div>
+    </div>`;
+});
+</script>
+</body>
+</html>
