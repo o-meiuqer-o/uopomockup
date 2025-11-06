@@ -1,40 +1,30 @@
-# 🌾 UOPO - Uthama Poshakam
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
 
-**Premium Nutrition Tracking Platform**
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-> "Premium Nutrition, Perfect Health"
+# OS
+.DS_Store
+Thumbs.db
 
-## Overview
+# Environment
+.env
+.env.local
 
-UOPO (Uthama Poshakam) is a comprehensive nutrition tracking application designed for families. It features AI-powered food detection, family health management, and personalized nutrition insights.
+# Build
+dist/
+build/
 
-## Features
+# Testing
+coverage/
 
-- 🎥 **AI Food Scanner** - Detect food items using camera
-- 👨‍👩‍👧 **Family Management** - Track multiple family members
-- 📊 **Nutrition Tracking** - Monitor 18+ nutrients daily
-- 🤰 **Pregnancy & Lactation** - Special tracking for expecting mothers
-- 👧 **Parental Controls** - Monitor children's nutrition (until age 12)
-- 🏥 **Medical Integration** - Track health conditions & allergies
-- 🚨 **Emergency Contacts** - Monogamous-society appropriate design
-- 📈 **Diet Tracker** - Weight loss journey tracking
-
-## Tech Stack
-
-- **Frontend:** HTML5, CSS3, Vanilla JavaScript
-- **Storage:** SessionStorage, JSON
-- **Compatibility:** Modern browsers (Chrome, Firefox, Safari, Edge)
-- **Mobile:** Fully responsive design
-
-## Quick Start
-
-### Prerequisites
-- Modern web browser
-- Git
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/o-meiuqer-o/uopomockup.git
-cd uopo-nutrition-app
+# Logs
+npm-debug.log*
+yarn-debug.log*
