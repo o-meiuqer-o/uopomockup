@@ -42,21 +42,15 @@
     <h1>👤 Complete Your Profile</h1>
     <p>Set up your complete nutrition profile with health information</p>
   </div>
-  <!-- (Profile info/sections would be here ...) -->
-
   <div class="decision-box">
     <h3>You're all set! What would you like to do?</h3>
     <div class="decision-buttons">
       <button class="btn" onclick="window.location='dashboard.html'">Go to Dashboard</button>
-      <button class="btn" onclick="completeProfile()">Complete & View Profile</button>
+      <button class="btn" onclick="window.location='profile-setup.html'">Complete & View Profile</button>
     </div>
   </div>
 </div>
 <script>
-function completeProfile() {
-  // perform any save/logic here if needed
-  window.location.href = 'dashboard.html'; // Or your final profile summary page
-}
 function openMenu() {
   document.getElementById("menuDrawer").classList.add("open");
   document.getElementById("menuBackdrop").classList.add("show");
