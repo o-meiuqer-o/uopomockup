@@ -7,16 +7,27 @@
   <link rel="stylesheet" href="css/uopo-branding.css">
   <style>
     body { background: #FEF8F0; }
-    .container { max-width: 700px; margin: 38px auto 0 auto; }
+    .container { max-width: 740px; margin: 38px auto 0 auto; }
     h1 { margin-bottom:12px; color:#8B6F47; text-align:center;}
     .subtitle { color:#9B8B7E; text-align:center; margin-bottom:24px; }
-    .nutrient-grid { display: grid; grid-template-columns:1fr 1fr 1fr; gap: 23px 17px; }
+    .nutrient-category { font-size:20px; color:#D4A574; margin:42px 0 17px 0; font-weight:700;}
+    .nutrient-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 23px 17px; }
     .nutrient-card { background:#fff; border-radius:13px; box-shadow:0 2px 10px #e8dcc8; padding:18px 15px; text-align:center; }
-    .nutrient-label { color:#8B6F47; font-weight:600; font-size:15px; margin-bottom:4px;}
+    .nutrient-label { color:#8B6F47; font-weight:600; font-size:16px; margin-bottom:2px;}
     .nutrient-value { font-size:17px; font-weight:700; color:#3e792b;}
-    .nutrient-unit { font-size:13px; color:#9B8B7E; }
-    .nutrient-goal { color: #956f1a; font-size:12px; margin-top:7px;}
-    @media(max-width:750px){ .container{padding:0 2vw;} .nutrient-grid{grid-template-columns:1fr 1fr;} }
+    .nutrient-unit { font-size:13px; color:#9B8B7E; margin-bottom:3px;}
+    .nutrient-goal { color: #956f1a; font-size:12px; margin-top:5px;}
+    .progress-pie {
+      width:38px; height:38px; margin:0 auto 6px auto;
+      display:block;
+    }
+    .progress-pie circle { fill: none; stroke-width:6px;}
+    .progress-bg { stroke: #e8e6e5;}
+    .progress-bar { stroke: #D4A574; stroke-linecap: round; transition: stroke-dasharray 0.7s;}
+    .progress-text {
+      font-size:12px; fill:#8B6F47; text-anchor:middle; dominant-baseline:middle;
+    }
+    @media(max-width:750px){ .container{padding:0 2vw;} .nutrient-grid{grid-template-columns:repeat(2,1fr);} }
     @media(max-width:440px){ .nutrient-grid{grid-template-columns:1fr;} }
     .btn { background:#D4A574; color:white; padding:13px 0; border-radius:8px;font-weight:600; font-size:14px;width:100%; border:none; margin-top:24px; cursor:pointer; }
     .btn:hover { background:#8B6F47;}
@@ -24,66 +35,93 @@
 </head>
 <body>
 <nav>
-    <span class="logo">🌾 UOPO</span>
-    <button class="hamburger" onclick="openMenu()">☰</button>
+  <span class="logo">🌾 UOPO</span>
+  <button class="hamburger" onclick="openMenu()">☰</button>
 </nav>
 <div class="menu-backdrop" onclick="closeMenu()" id="menuBackdrop"></div>
 <div class="menu-drawer" id="menuDrawer">
-    <a href="dashboard.html">🏠 Dashboard</a>
-    <a href="log-meal.html">🍛 Log Meal</a>
-    <a href="detailed-meal-log.html">📜 Meal Log</a>
-    <a href="diet-tracker.html">📊 Diet Tracker</a>
-    <a href="family-profiles.html">👪 Family</a>
-    <a href="add-family-member.html">➕ Add Member</a>
-    <a href="complete-profile.html">👤 Profile Setup</a>
-    <a href="detailed-stats.html">📈 Detailed Stats</a>
-    <a href="plan-my-meal.html">🧑‍🍳 Plan My Meal</a>
-    <a href="index.html">🏡 Home</a>
-    <a href="signin.html">🚪 Sign Out</a>
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="log-meal.html">🍛 Log Meal</a>
+  <a href="detailed-meal-log.html">📜 Meal Log</a>
+  <a href="diet-tracker.html">📊 Diet Tracker</a>
+  <a href="family-profiles.html">👪 Family</a>
+  <a href="add-family-member.html">➕ Add Member</a>
+  <a href="complete-profile.html">👤 Profile Setup</a>
+  <a href="detailed-stats.html">📈 Detailed Stats</a>
+  <a href="plan-my-meal.html">🧑‍🍳 Plan My Meal</a>
+  <a href="index.html">🏡 Home</a>
+  <a href="signin.html">🚪 Sign Out</a>
 </div>
 <div class="container">
   <h1>Detailed Nutrient Tracker</h1>
-  <p class="subtitle">All tracked micronutrients and minerals (sample data for demo)</p>
-  <div class="nutrient-grid" id="nutrientGrid"></div>
+  <p class="subtitle">Micronutrients and minerals intake, progress vs. RDA</p>
+
+  <div class="nutrient-category">Vitamins</div>
+  <div class="nutrient-grid" id="vitaminGrid"></div>
+
+  <div class="nutrient-category">Minerals</div>
+  <div class="nutrient-grid" id="mineralGrid"></div>
+
+  <div class="nutrient-category">Other Trace Elements</div>
+  <div class="nutrient-grid" id="otherGrid"></div>
+
   <button class="btn" onclick="window.location='diet-tracker.html'">← Back to Diet Tracker</button>
 </div>
 <script>
-const micronutrients = [
-  { label: "Vitamin A", value: "700", unit: "µg", goal: "RDA (M/F): 900/700 µg" },
-  { label: "Vitamin C", value: "82", unit: "mg", goal: "RDA: 90 mg" },
-  { label: "Vitamin D", value: "13", unit: "µg", goal: "RDA: 15 µg" },
-  { label: "Vitamin E", value: "10.2", unit: "mg", goal: "RDA: 15 mg" },
-  { label: "Vitamin K", value: "80", unit: "µg", goal: "RDA: 120 µg" },
-  { label: "Vitamin B1 (Thiamin)", value: "1.6", unit: "mg", goal: "RDA: 1.2 mg" },
-  { label: "Vitamin B2 (Riboflavin)", value: "2.1", unit: "mg", goal: "RDA: 1.3 mg" },
-  { label: "Vitamin B3 (Niacin)", value: "16", unit: "mg", goal: "RDA: 16 mg" },
-  { label: "Vitamin B6", value: "2.3", unit: "mg", goal: "RDA: 1.7 mg" },
-  { label: "Vitamin B12", value: "5.3", unit: "µg", goal: "RDA: 2.4 µg" },
-  { label: "Folate", value: "430", unit: "µg", goal: "RDA: 400 µg" },
-  { label: "Calcium", value: "1070", unit: "mg", goal: "RDA: 1000 mg" },
-  { label: "Iron", value: "13.8", unit: "mg", goal: "RDA: 8/18 mg" },
-  { label: "Magnesium", value: "389", unit: "mg", goal: "RDA: 420 mg" },
-  { label: "Phosphorus", value: "1038", unit: "mg", goal: "RDA: 700 mg" },
-  { label: "Potassium", value: "3200", unit: "mg", goal: "RDA: 3400 mg" },
-  { label: "Zinc", value: "8.4", unit: "mg", goal: "RDA: 11 mg" },
-  { label: "Copper", value: "1.1", unit: "mg", goal: "RDA: 0.9 mg" },
-  { label: "Selenium", value: "77", unit: "µg", goal: "RDA: 55 µg" },
-  { label: "Iodine", value: "121", unit: "µg", goal: "RDA: 150 µg" },
-  { label: "Manganese", value: "2.9", unit: "mg", goal: "RDA: 2.3 mg" },
-  { label: "Chromium", value: "38", unit: "µg", goal: "RDA: 35 µg" },
-  { label: "Fluoride", value: "2.6", unit: "mg", goal: "RDA: 4 mg" },
-  { label: "Molybdenum", value: "34", unit: "µg", goal: "RDA: 45 µg" }
+function pieSVG(perc,label) {
+  const r = 15, cX = 19, cY = 19, total = Math.PI*2*r, pct = Math.min(perc,100)/100;
+  const arc = pct * total;
+  return `<svg class="progress-pie" viewBox="0 0 38 38"><circle class="progress-bg" cx="${cX}" cy="${cY}" r="${r}"/>
+    <circle class="progress-bar" cx="${cX}" cy="${cY}" r="${r}" stroke-dasharray="${arc},${total-arc}"/>
+    <text class="progress-text" x="19" y="22">${Math.round(perc)}%</text></svg>`;
+}
+const vitamins = [
+  { label:"A", value:700, unit:"µg", rda:700 }, { label:"C", value:82, unit:"mg", rda:90 },
+  { label:"D", value:13, unit:"µg", rda:15 }, { label:"E", value:10.2, unit:"mg", rda:15 },
+  { label:"K", value:80, unit:"µg", rda:120 }, { label:"B1", value:1.6, unit:"mg", rda:1.2 },
+  { label:"B2", value:2.1, unit:"mg", rda:1.3 }, { label:"B3", value:16, unit:"mg", rda:16 },
+  { label:"B6", value:2.3, unit:"mg", rda:1.7 }, { label:"B12", value:5.3, unit:"µg", rda:2.4 }, { label:"Folate", value:430, unit:"µg", rda:400 }
 ];
-let grid = document.getElementById("nutrientGrid");
-micronutrients.forEach(nutrient => {
-  grid.innerHTML += `
-    <div class="nutrient-card">
-      <div class="nutrient-label">${nutrient.label}</div>
-      <div class="nutrient-value">${nutrient.value}</div>
-      <div class="nutrient-unit">${nutrient.unit}</div>
-      <div class="nutrient-goal">${nutrient.goal}</div>
-    </div>
-  `;
+let vitaminGrid = document.getElementById("vitaminGrid");
+vitamins.forEach(v=>{
+  let pct = v.value/v.rda*100;
+  vitaminGrid.innerHTML += `<div class="nutrient-card">${pieSVG(pct,v.label)}
+    <div class="nutrient-label">Vitamin ${v.label}</div>
+    <div class="nutrient-value">${v.value}</div>
+    <div class="nutrient-unit">${v.unit}</div>
+    <div class="nutrient-goal">Goal: ${v.rda} ${v.unit}</div>
+  </div>`;
+});
+const minerals = [
+  { label:"Calcium", value:1070, unit:"mg", rda:1000 }, { label:"Iron", value:13.8, unit:"mg", rda:18 },
+  { label:"Magnesium", value:389, unit:"mg", rda:420 }, { label:"Phosphorus", value:1038, unit:"mg", rda:700 },
+  { label:"Potassium", value:3200, unit:"mg", rda:3400 }, { label:"Zinc", value:8.4, unit:"mg", rda:11 },
+  { label:"Copper", value:1.1, unit:"mg", rda:0.9 }, { label:"Selenium", value:77, unit:"µg", rda:55 },
+  { label:"Iodine", value:121, unit:"µg", rda:150 }, { label:"Manganese", value:2.9, unit:"mg", rda:2.3 }
+];
+let mineralGrid = document.getElementById("mineralGrid");
+minerals.forEach(m=>{
+  let pct=m.value/m.rda*100;
+  mineralGrid.innerHTML += `<div class="nutrient-card">${pieSVG(pct,m.label)}
+    <div class="nutrient-label">${m.label}</div>
+    <div class="nutrient-value">${m.value}</div>
+    <div class="nutrient-unit">${m.unit}</div>
+    <div class="nutrient-goal">Goal: ${m.rda} ${m.unit}</div>
+  </div>`;
+});
+const otherElems = [
+  { label:"Chromium", value:38, unit:"µg", rda:35 }, { label:"Fluoride", value:2.6, unit:"mg", rda:4 },
+  { label:"Molybdenum", value:34, unit:"µg", rda:45 }
+];
+let otherGrid = document.getElementById("otherGrid");
+otherElems.forEach(o=>{
+  let pct=o.value/o.rda*100;
+  otherGrid.innerHTML += `<div class="nutrient-card">${pieSVG(pct,o.label)}
+    <div class="nutrient-label">${o.label}</div>
+    <div class="nutrient-value">${o.value}</div>
+    <div class="nutrient-unit">${o.unit}</div>
+    <div class="nutrient-goal">Goal: ${o.rda} ${o.unit}</div>
+  </div>`;
 });
 function openMenu() {document.getElementById("menuDrawer").classList.add("open");document.getElementById("menuBackdrop").classList.add("show");}
 function closeMenu() {document.getElementById("menuDrawer").classList.remove("open");document.getElementById("menuBackdrop").classList.remove("show");}
