@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Setup – Step 2: Dietary Preferences | UOPO</title>
+  <link rel="stylesheet" href="css/uopo-branding.css">
+  <style>
+    body { background: #FEF8F0; }
+    .container { max-width: 440px; margin: 36px auto 0 auto; }
+    .step-box { background: #fff; padding: 26px 17px; border-radius: 13px; box-shadow: 0 2px 10px #e8dcc8; margin-bottom: 27px;}
+    .step-header { font-size: 20px; font-weight: 700; color: #8B6F47; margin-bottom: 18px; }
+    .form-group { margin-bottom: 17px; }
+    label { font-weight: 600; color: #D4A574; }
+    input, select, textarea { width: 100%; padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #D4A574; background: #fff; color: #4A3F35; }
+    input:focus, select:focus, textarea:focus { border-color: #8B6F47; outline: none;}
+    .form-actions { display: flex; justify-content: space-between; }
+    .btn { background: #D4A574; color: white; border: none; border-radius: 8px; padding: 13px 34px; font-size: 16px; font-weight: 600;}
+    .btn:hover { background: #8B6F47;}
+    .step-indicator { display: flex; gap: 6px; margin-bottom: 19px; }
+    .step-dot { width: 23px; height: 23px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; background: #e1dec2;}
+    .step-dot.active { background: #D4A574;}
+    @media(max-width:600px){ .container{padding:0 2vw;} }
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
+    .checkbox-item { display: flex; align-items: center; gap: 6px; }
+  </style>
+</head>
+<body>
+<nav>
+  <span class="logo">🌾 UOPO</span>
+  <button class="hamburger" onclick="openMenu()">☰</button>
+</nav>
+<div class="menu-backdrop" onclick="closeMenu()" id="menuBackdrop"></div>
+<div class="menu-drawer" id="menuDrawer">
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="log-meal.html">🍛 Log Meal</a>
+  <a href="detailed-meal-log.html">📜 Meal Log</a>
+  <a href="diet-tracker.html">📊 Diet Tracker</a>
+  <a href="family-profiles.html">👪 Family</a>
+  <a href="add-family-member.html">➕ Add Member</a>
+  <a href="complete-profile.html">👤 Profile Setup</a>
+  <a href="detailed-stats.html">📈 Detailed Stats</a>
+  <a href="plan-my-meal.html">🧑‍🍳 Plan My Meal</a>
+  <a href="index.html">🏡 Home</a>
+  <a href="signin.html">🚪 Sign Out</a>
+</div>
+<div class="container">
+  <form id="dietForm" class="step-box" autocomplete="off">
+    <div class="step-indicator">
+      <div class="step-dot">1</div>
+      <div class="step-dot active">2</div>
+      <div class="step-dot">3</div>
+      <div class="step-dot">4</div>
+    </div>
+    <div class="step-header">Step 2: Dietary Preferences & Restrictions</div>
+    <div class="form-group">
+      <label for="dietType">Diet Type</label>
+      <select id="dietType" required>
+        <option value="">Choose…</option>
+        <option>Vegetarian</option>
+        <option>Non-Vegetarian</option>
+        <option>Vegan</option>
+        <option>Pescatarian</option>
+        <option>Jain</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Allergies (select any):</label>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><input type="checkbox" value="Milk">Milk</div>
+        <div class="checkbox-item"><input type="checkbox" value="Eggs">Eggs</div>
+        <div class="checkbox-item"><input type="checkbox" value="Peanuts">Peanuts</div>
+        <div class="checkbox-item"><input type="checkbox" value="Tree nuts">Tree nuts</div>
+        <div class="checkbox-item"><input type="checkbox" value="Soy">Soy</div>
+        <div class="checkbox-item"><input type="checkbox" value="Wheat">Wheat</div>
+        <div class="checkbox-item"><input type="checkbox" value="Fish">Fish</div>
+        <div class="checkbox-item"><input type="checkbox" value="Shellfish">Shellfish</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="otherAllergy">Other Allergies / Restrictions</label>
+      <textarea id="otherAllergy" rows="2" placeholder="E.g., Gluten, sesame, mustard…"></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn" type="button" onclick="goToPrev()">&larr; Back</button>
+      <button class="btn" type="button" onclick="goToNext()">Next &rarr;</button>
+    </div>
+  </form>
+</div>
+<script>
+function goToPrev() {
+  window.location = "profile-setup.html"; // previous step
+}
+function goToNext() {
+  var form = document.getElementById("dietForm");
+  // Save allergies and diet type
+  localStorage.setItem('profileDietType', document.getElementById('dietType').value);
+  let allerg = [];
+  document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked').forEach(box => allerg.push(box.value));
+  localStorage.setItem('profileAllergies', JSON.stringify(allerg));
+  localStorage.setItem('profileOtherAllergy', document.getElementById('otherAllergy').value || "");
+  window.location = "profile-setup-step3.html";
+}
+function openMenu() {
+  document.getElementById("menuDrawer").classList.add("open");
+  document.getElementById("menuBackdrop").classList.add("show");
+}
+function closeMenu() {
+  document.getElementById("menuDrawer").classList.remove("open");
+  document.getElementById("menuBackdrop").classList.remove("show");
+}
+</script>
+</body>
+</html>
