@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - UOPO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-text {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #D4A574;
+            margin-bottom: 5px;
+        }
+        
+        .tagline {
+            color: #7f8c8d;
+            font-size: 13px;
+        }
+        
+        h1 {
+            color: #4A3F35;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            color: #9B8B7E;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4A3F35;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #D4A574;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #8B6F47;
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.15);
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        
+        .remember-forgot a {
+            color: #D4A574;
+            text-decoration: none;
+        }
+        
+        .remember-forgot a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #D4A574;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #8B6F47;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #9B8B7E;
+            font-size: 13px;
+        }
+        
+        .signup-link a {
+            color: #D4A574;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo-text">🌾</div>
+            <div class="logo-name">UOPO</div>
+            <div class="tagline">Premium Nutrition, Perfect Health</div>
+        </div>
+        
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Sign in to your UOPO account</p>
+        
+        <form onsubmit="handleSignIn(event)">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="your@email.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Your password" required>
+            </div>
+            
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox" id="remember"> Remember me
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+        
+        <p class="signup-link">
+            Don't have an account? <a href="signup.html">Sign Up</a>
+        </p>
+    </div>
+    
+    <script>
+        function handleSignIn(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const remember = document.getElementById('remember').checked;
+            
+            if (remember) {
+                localStorage.setItem('rememberedEmail', email);
+            }
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        }
+        
+        // Pre-fill remembered email
+        window.addEventListener('load', function() {
+            const remembered = localStorage.getItem('rememberedEmail');
+            if (remembered) {
+                document.getElementById('email').value = remembered;
+                document.getElementById('remember').checked = true;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Meal - UOPO</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #FEF8F0; min-height: 100vh; padding: 20px; }
+        nav { background: white; padding: 15px 30px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(139, 111, 71, 0.08); display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { font-size: 24px; font-weight: bold; color: #D4A574; }
+        nav a { margin-left: 20px; text-decoration: none; color: #4A3F35; font-size: 14px; }
+        nav a:hover { color: #D4A574; }
+        .container { max-width: 800px; margin: 40px auto; }
+        .page-header { background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        .page-header h1 { font-size: 32px; margin-bottom: 10px; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(139, 111, 71, 0.08); margin-bottom: 20px; }
+        .card h2 { color: #4A3F35; font-size: 18px; margin-bottom: 20px; border-bottom: 2px solid #E8DCC8; padding-bottom: 10px; }
+        .method-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .method-btn { padding: 20px; border: 2px solid #E8DCC8; border-radius: 8px; cursor: pointer; transition: all 0.3s; text-align: center; }
+        .method-btn:hover { border-color: #D4A574; background: #FEF8F0; }
+        .method-btn.active { border-color: #D4A574; background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%); color: white; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #4A3F35; font-weight: 600; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #D4A574; border-radius: 6px; font-size: 14px; }
+        input:focus, select:focus { outline: none; border-color: #8B6F47; box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1); }
+        .btn { display: block; padding: 15px 20px; background: #D4A574; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; transition: all 0.3s; text-align: center; border: none; cursor: pointer; }
+        .btn:hover { background: #8B6F47; }
+        .recent-meals { background: #FEF8F0; padding: 20px; border-radius: 8px; border-left: 4px solid #D4A574; }
+        .meal-entry { padding: 10px 0; border-bottom: 1px solid #E8DCC8; font-size: 13px; color: #4A3F35; }
+        .meal-entry:last-child { border-bottom: none; }
+        .meal-time { font-weight: 600; color: #D4A574; }
+        .meal-details { color: #9B8B7E; font-size: 12px; margin-top: 3px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">🌾 UOPO</div>
+        <div>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="family-profiles.html">Family</a>
+            <a href="diet-tracker.html">Diet Tracker</a>
+            <a href="signin.html">Sign Out</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>📷 Log Your Meal</h1>
+            <p>Choose how you'd like to log your meal</p>
+        </div>
+        
+        <div class="card">
+            <h2>Select Logging Method</h2>
+            <div class="method-selector">
+                <div class="method-btn active" onclick="selectMethod('camera')">
+                    <div style="font-size: 32px; margin-bottom: 10px;">📸</div>
+                    <div style="font-weight: 600;">Camera Scanner</div>
+                    <div style="font-size: 12px; color: #9B8B7E; margin-top: 5px;">Scan with camera</div>
+                </div>
+                <div class="method-btn" onclick="selectMethod('manual')">
+                    <div style="font-size: 32px; margin-bottom: 10px;">✏️</div>
+                    <div style="font-weight: 600;">Manual Entry</div>
+                    <div style="font-size: 12px; color: #9B8B7E; margin-top: 5px;">Type details</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="camera-section" class="card">
+            <h2>📸 Camera Scanner</h2>
+            <div style="background: #FEF8F0; padding: 40px; border-radius: 8px; border: 2px dashed #D4A574; text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 48px; margin-bottom: 10px;">📷</div>
+                <p style="color: #9B8B7E; font-size: 14px;">Camera feed will appear here</p>
+                <p style="color: #D4A574; font-size: 12px; margin-top: 10px;">Bounding boxes will show detected foods</p>
+            </div>
+            <button class="btn" onclick="startScanner()">🎥 Start Camera Scanner</button>
+        </div>
+        
+        <div id="manual-section" class="card" style="display: none;">
+            <h2>✏️ Manual Entry</h2>
+            <div class="form-group">
+                <label for="food-name">Food Name</label>
+                <input type="text" id="food-name" placeholder="e.g., Chicken Biryani">
+            </div>
+            <div class="form-group">
+                <label for="portion">Portion Size</label>
+                <input type="text" id="portion" placeholder="e.g., 250g or 1 bowl">
+            </div>
+            <div class="form-group">
+                <label for="meal-time">Meal Time</label>
+                <select id="meal-time">
+                    <option value="">Select Meal Time</option>
+                    <option value="breakfast">🌅 Breakfast</option>
+                    <option value="lunch">☀️ Lunch</option>
+                    <option value="dinner">🌙 Dinner</option>
+                    <option value="snack">🍎 Snack</option>
+                </select>
+            </div>
+            <button class="btn" onclick="logManualMeal()">✓ Log Meal</button>
+        </div>
+        
+        <div class="card">
+            <h2>📅 Recent Meals Today</h2>
+            <div class="recent-meals">
+                <div class="meal-entry">
+                    <div class="meal-time">🌅 Breakfast - 8:30 AM</div>
+                    <div class="meal-details">Idli with Sambar (2 idlis) • 120 cal</div>
+                </div>
+                <div class="meal-entry">
+                    <div class="meal-time">☀️ Lunch - 1:00 PM</div>
+                    <div class="meal-details">Chicken Biryani (1 plate) • 450 cal</div>
+                </div>
+                <div class="meal-entry">
+                    <div class="meal-time">🍎 Snack - 5:00 PM</div>
+                    <div class="meal-details">Tea with biscuits • 150 cal</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function selectMethod(method) {
+            document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.method-btn').classList.add('active');
+            
+            document.getElementById('camera-section').style.display = method === 'camera' ? 'block' : 'none';
+            document.getElementById('manual-section').style.display = method === 'manual' ? 'block' : 'none';
+        }
+        
+        function startScanner() {
+            window.location.href = 'scan-result.html';
+        }
+        
+        function logManualMeal() {
+            const foodName = document.getElementById('food-name').value;
+            const mealTime = document.getElementById('meal-time').value;
+            
+            if (!foodName || !mealTime) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            alert(`✓ Meal logged: ${foodName}`);
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>

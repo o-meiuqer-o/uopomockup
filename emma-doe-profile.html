@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma Doe Profile - UOPO</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #FEF8F0; min-height: 100vh; padding: 20px; }
+        nav { background: white; padding: 15px 30px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(139, 111, 71, 0.08); display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { font-size: 24px; font-weight: bold; color: #D4A574; }
+        nav a { margin-left: 20px; text-decoration: none; color: #4A3F35; font-size: 14px; }
+        nav a:hover { color: #D4A574; }
+        .container { max-width: 1000px; margin: 40px auto; }
+        .profile-header { background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; }
+        .profile-header h1 { font-size: 28px; margin-bottom: 10px; }
+        .profile-badge { display: inline-block; background: rgba(255,255,255,0.3); padding: 5px 15px; border-radius: 20px; font-size: 12px; margin-top: 10px; }
+        .parent-note { background: rgba(0,0,0,0.1); padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 13px; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .dashboard-grid.full { grid-template-columns: 1fr; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(139, 111, 71, 0.08); }
+        .card h2 { color: #4A3F35; font-size: 18px; margin-bottom: 20px; border-bottom: 2px solid #E8DCC8; padding-bottom: 10px; }
+        .info-item { margin-bottom: 15px; font-size: 14px; color: #555; }
+        .info-label { color: #4A3F35; font-weight: 600; }
+        .progress-bar { width: 100%; height: 12px; background: #E8DCC8; border-radius: 6px; overflow: hidden; margin: 8px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #D4A574, #8B6F47); border-radius: 6px; }
+        .btn { display: inline-block; padding: 12px 25px; background: #D4A574; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; margin-right: 15px; }
+        .btn:hover { background: #8B6F47; }
+        .btn-secondary { background: #9B8B7E; margin-right: 0; }
+        .btn-secondary:hover { background: #6B5D52; }
+        .parental-control { background: #FEF8F0; padding: 20px; border-radius: 8px; border-left: 4px solid #D4A574; margin-bottom: 20px; }
+        .parental-control h3 { color: #8B6F47; margin-bottom: 10px; font-size: 14px; }
+        .nutrition-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .nutrition-item { background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+        .nutrition-value { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+        .nutrition-label { font-size: 12px; opacity: 0.9; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
+        .modal.show { display: block; }
+        .modal-content { background-color: #FEF8F0; margin: 5% auto; padding: 20px; border: 1px solid #D4A574; border-radius: 12px; width: 80%; max-width: 500px; }
+        .modal-header { color: #4A3F35; font-size: 20px; margin-bottom: 20px; border-bottom: 2px solid #D4A574; padding-bottom: 10px; }
+        .close { color: #9B8B7E; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: #4A3F35; }
+        @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } .nutrition-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">🌾 UOPO</div>
+        <div>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="family-profiles.html">Family</a>
+            <a href="signin.html">Sign Out</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="profile-header">
+            <h1>👧 Emma Doe</h1>
+            <p>Child • Age 8 • Healthy Growth</p>
+            <div class="profile-badge">🔐 Parental Controls Active</div>
+            <div class="profile-badge">Parent: John Doe</div>
+            <div class="parent-note">
+                <strong>Parent's Note:</strong> Emma is doing great! Keep up the healthy eating habits and try to include more fruits in her diet.
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="card">
+                <h2>📋 Basic Information</h2>
+                <div class="info-item"><span class="info-label">Age:</span> 8 years old</div>
+                <div class="info-item"><span class="info-label">Height:</span> 130 cm</div>
+                <div class="info-item"><span class="info-label">Weight:</span> 28 kg</div>
+                <div class="info-item"><span class="info-label">BMI:</span> 16.6 (Healthy)</div>
+                <div class="info-item"><span class="info-label">Access Level:</span> Child Access (Read-Only)</div>
+            </div>
+            
+            <div class="card">
+                <h2>🎯 Growth Tracking</h2>
+                <div class="info-item">
+                    <span class="info-label">Height Growth</span>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 70%;"></div></div>
+                    <span style="font-size: 12px; color: #9B8B7E;">On track for age</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Weight Growth</span>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 75%;"></div></div>
+                    <span style="font-size: 12px; color: #9B8B7E;">Healthy development</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid full">
+            <div class="card">
+                <h2>📊 Today's Nutrition</h2>
+                <div class="nutrition-grid">
+                    <div class="nutrition-item">
+                        <div class="nutrition-value">1,450</div>
+                        <div class="nutrition-label">Calories (kcal)</div>
+                    </div>
+                    <div class="nutrition-item" style="background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);">
+                        <div class="nutrition-value">45</div>
+                        <div class="nutrition-label">Protein (g)</div>
+                    </div>
+                    <div class="nutrition-item" style="background: linear-gradient(135deg, #2C5F5F 0%, #1C3F3F 100%);">
+                        <div class="nutrition-value">35</div>
+                        <div class="nutrition-label">Fat (g)</div>
+                    </div>
+                    <div class="nutrition-item" style="background: linear-gradient(135deg, #A0522D 0%, #8B4513 100%);">
+                        <div class="nutrition-value">180</div>
+                        <div class="nutrition-label">Carbs (g)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="parental-control">
+            <h3>👨 Parental Controls</h3>
+            <p style="font-size: 13px; color: #6B5D52; margin-bottom: 15px;">As a parent, you can monitor and set nutrition goals for Emma.</p>
+            <button class="btn" onclick="openGoalsModal()">⚙️ Set Nutrition Goals</button>
+            <a href="nutrition-chart.html" class="btn">📊 View Detailed Nutrition</a>
+        </div>
+        
+        <div class="dashboard-grid full">
+            <div class="card">
+                <h2>🍽️ Meals Logged Today</h2>
+                <div class="info-item" style="border-bottom: 1px solid #E8DCC8; padding-bottom: 10px;">
+                    <strong>🌅 Breakfast (8:30 AM)</strong><br>
+                    <span style="font-size: 12px; color: #9B8B7E;">Idli with Sambar (2 idlis) • 120 cal</span>
+                </div>
+                <div class="info-item" style="border-bottom: 1px solid #E8DCC8; padding-bottom: 10px;">
+                    <strong>☀️ Lunch (1:00 PM)</strong><br>
+                    <span style="font-size: 12px; color: #9B8B7E;">Chicken Biryani (1 plate) • 450 cal</span>
+                </div>
+                <div class="info-item">
+                    <strong>🍎 Snack (5:00 PM)</strong><br>
+                    <span style="font-size: 12px; color: #9B8B7E;">Apple slices with peanut butter • 150 cal</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons" style="text-align: center; margin-top: 30px;">
+            <a href="family-profiles.html" class="btn btn-secondary">← Back to Family</a>
+        </div>
+    </div>
+    
+    <!-- Goals Modal -->
+    <div id="goalsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeGoalsModal()">&times;</span>
+            <div class="modal-header">⚙️ Set Nutrition Goals</div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 8px; color: #4A3F35; font-weight: 600;">Daily Calorie Target</label>
+                <input type="number" value="1500" style="width: 100%; padding: 10px; border: 1px solid #D4A574; border-radius: 6px; font-size: 14px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 8px; color: #4A3F35; font-weight: 600;">Protein Target (g)</label>
+                <input type="number" value="45" style="width: 100%; padding: 10px; border: 1px solid #D4A574; border-radius: 6px; font-size: 14px;">
+            </div>
+            <button class="btn" onclick="closeGoalsModal()" style="width: 100%; margin-top: 20px;">✓ Save Goals</button>
+        </div>
+    </div>
+    
+    <script>
+        function openGoalsModal() {
+            document.getElementById('goalsModal').classList.add('show');
+        }
+        
+        function closeGoalsModal() {
+            document.getElementById('goalsModal').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
