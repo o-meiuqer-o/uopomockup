@@ -1,100 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Meal - UOPO</title>
-    <link rel="stylesheet" href="css/uopo-branding.css">
-    <style>
-        .scan-box {
-            background: #FEF8F0; padding: 22px 8px 18px 8px; border-radius: 12px; border: 2px dashed #D4A574;
-            text-align: center; margin-bottom: 15px; min-height:130px;
-        }
-        #photo-preview img {
-            max-width: 92vw; width: 200px; border-radius: 15px; margin: 10px auto 14px auto; box-shadow: 0 4px 14px #e1d1b6; display: block;
-        }
-        #fallback-btn { margin-top: 9px; background: #9B8B7E; }
-        @media (max-width:600px){ .scan-box{padding:12px 3vw;} }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log Meal - UOPO</title>
+<link rel="stylesheet" href="css/uopo-branding.css">
+<style>
+body, html { height: 100%; margin: 0; padding: 0; }
+#camera-container {
+  position:fixed; top:0; left:0; width:100vw; height:100vh; background:#1a140a; z-index:1001; display:none; flex-direction:column;align-items:center;justify-content:center;
+}
+#camera-video {
+  width: 100vw; height: auto; max-height: 80vh; border-radius: 0;
+  background: #232323; object-fit:cover;
+}
+#controls-overlay {
+  position: absolute; top: 10px; width: 100vw; display: flex; justify-content: space-between; align-items:center; z-index:2; padding: 0 17px;
+}
+#bottom-controls {
+  position: absolute; bottom: 35px; width: 100vw; text-align: center; z-index:2;
+}
+#capture-btn, #fallback-btn {
+  font-size: 18px; font-weight: 700; background: #D4A574; color: white; border: none; border-radius: 9px; padding: 15px 35px; margin: 12px;
+  box-shadow:0 5px 20px #B69D76; cursor:pointer;
+  transition: filter 0.18s;
+}
+#capture-btn:hover, #fallback-btn:hover { filter:brightness(0.88);}
+#close-cam { background:none; border:none; color:#fff; font-size:23px; font-weight:900; }
+#photo-canvas { display:none; }
+#photo-preview img { max-width:92vw; width: 220px; border-radius:14px; margin:10px auto 14px auto; box-shadow: 0 4px 14px #e1d1b6; display:block;}
+.card, .page-header { display:none; } /* Only show core camera functionality */
+</style>
 </head>
 <body>
-<nav>
-    <div class="logo">🌾 UOPO</div>
-    <div>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="family-profiles.html">Family</a>
-        <a href="diet-tracker.html">Diet Tracker</a>
-        <a href="signin.html">Sign Out</a>
-    </div>
-</nav>
-<div class="container">
-    <div class="page-header">
-        <h1>📷 Log Your Meal</h1>
-        <p>Take a photo to scan and log your meal instantly</p>
-    </div>
-    <div class="card">
-        <h2>Camera Scanner</h2>
-        <div class="scan-box">
-            <input type="file" id="take-photo" accept="image/*" capture="environment" style="display:none;" onchange="processPhoto(this)">
-            <input type="file" id="upload-photo" accept="image/*" style="display:none;" onchange="processPhoto(this)">
-            <button class="btn" id="openCameraBtn" onclick="document.getElementById('take-photo').click()" style="display:none;">Take Photo</button>
-            <button class="btn" id="fallback-btn" onclick="document.getElementById('upload-photo').click()">Manual Upload</button>
-            <div id="photo-preview"></div>
-        </div>
-    </div>
-    <div class="card">
-        <h2>Manual Entry</h2>
-        <div class="form-group">
-            <label for="food-name">Food Name</label>
-            <input type="text" id="food-name" placeholder="e.g., Chole Bhature">
-        </div>
-        <div class="form-group">
-            <label for="portion">Portion Size</label>
-            <input type="text" id="portion" placeholder="e.g., 150g or 2 pcs">
-        </div>
-        <div class="form-group">
-            <label for="meal-time">Meal Time</label>
-            <select id="meal-time">
-                <option value="">Select</option>
-                <option value="breakfast">🌅 Breakfast</option>
-                <option value="lunch">☀️ Lunch</option>
-                <option value="dinner">🌙 Dinner</option>
-                <option value="snack">🍎 Snack</option>
-            </select>
-        </div>
-        <button class="btn" onclick="logManualMeal()">✓ Log Meal</button>
-    </div>
+<div id="camera-container">
+  <video id="camera-video" autoplay playsinline></video>
+  <div id="controls-overlay">
+    <button id="close-cam" onclick="stopCamera()">✕</button>
+    <span class="logo" style="color:#D4A574;font-size:23px;">🌾 UOPO</span>
+  </div>
+  <div id="bottom-controls">
+    <button id="capture-btn" onclick="capturePhoto()">📸 Capture</button>
+    <button id="fallback-btn" onclick="stopCamera();document.getElementById('upload-photo').click()">Manual Upload</button>
+  </div>
 </div>
+<input type="file" id="upload-photo" accept="image/*" style="display:none;" onchange="loadFallbackPhoto(this)">
+<div id="photo-preview"></div>
 <script>
-function triggerInstantCamera() {
-    // Instantly fire camera when page loads (mobile devices, most browsers)
-    let t = document.getElementById('take-photo');
-    if ("ontouchstart" in window || navigator.maxTouchPoints) {
-        setTimeout(()=>t.click(), 400);
-    } else {
-        document.getElementById('openCameraBtn').style.display = 'inline-block';
-    }
+let videoStream = null;
+function startCamera() {
+  document.getElementById('camera-container').style.display = "flex";
+  navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}})
+    .then(stream=>{
+      videoStream = stream;
+      const vid = document.getElementById('camera-video');
+      vid.srcObject = stream;
+      vid.play();
+    });
 }
-function processPhoto(input) {
-  const photoPreview = document.getElementById('photo-preview');
-  photoPreview.innerHTML = '';
+function capturePhoto() {
+  const video = document.getElementById('camera-video');
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth || 400;
+  canvas.height = video.videoHeight || 300;
+  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+  const dataUrl = canvas.toDataURL('image/jpeg');
+  stopCamera();
+  document.body.style.background="#FEF8F0"; // restore bg
+  document.getElementById('photo-preview').innerHTML = `<img src="${dataUrl}">`;
+  sessionStorage.setItem('mealPhoto', dataUrl);
+  setTimeout(()=>window.location.href="scan-result.html",900);
+}
+function stopCamera() {
+  document.getElementById('camera-container').style.display = "none";
+  if(videoStream) videoStream.getTracks().forEach(track=>track.stop());
+}
+function loadFallbackPhoto(input) {
   if (input.files && input.files[0]) {
       const reader = new FileReader();
       reader.onload = function (e) {
-          photoPreview.innerHTML = `<img src="${e.target.result}" alt="Your photo">`;
+          document.getElementById('photo-preview').innerHTML = `<img src="${e.target.result}" alt="Your photo">`;
           sessionStorage.setItem('mealPhoto', e.target.result);
-          setTimeout(() => window.location.href = "scan-result.html", 1100); // Fast forward to scan result
+          setTimeout(() => window.location.href = "scan-result.html", 1000);
       }
       reader.readAsDataURL(input.files[0]);
   }
 }
-function logManualMeal() {
-    const name=document.getElementById('food-name').value, mealTime=document.getElementById('meal-time').value;
-    if(!name||!mealTime) { alert('Please fill all fields'); return;}
-    alert(`✓ Meal logged: ${name}`);
-    window.location.href = 'dashboard.html'; // Or detailed meal log
-}
-document.addEventListener("DOMContentLoaded", triggerInstantCamera);
+window.onload = () => { startCamera(); }
 </script>
 </body>
 </html>
