@@ -5,13 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log Meal - UOPO</title>
     <style>
-        /* ... (Keep your existing UOPO styles here; unchanged from your last version) ... */
-        /* Only important addition is for the live photo preview */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #FEF8F0;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+        nav {
+            background: white;
+            padding: 15px 22px 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(139,111,71, 0.08);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .logo { font-size: 24px; font-weight: bold; color: #D4A574; }
+        nav a { margin-left: 20px; text-decoration: none; color: #4A3F35; font-size: 15px;}
+        nav a:hover { color: #D4A574; }
+
+        .container { max-width: 500px; margin: 28px auto 0 auto; }
+        .page-header {
+            background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%);
+            color: white; border-radius: 12px;
+            padding: 24px 15px 18px 15px;
+            text-align: center;
+            box-shadow: 0 6px 14px #e8dcc8;
+            margin-bottom: 18px;
+        }
+        .page-header h1 { font-size: 26px; font-weight: 700; margin: 0 0 7px 0;}
+        .page-header p { color: #eae1d2; margin: 0; font-size: 16px; }
+        .card { background: white; padding: 22px 14px; border-radius: 12px; box-shadow: 0 2px 10px #ece0d0; margin-bottom: 18px;}
+        h2 { font-size: 21px; margin: 6px 0 16px 0; color: #8B6F47;}
+        .method-selector { display: flex; gap: 12px; margin-bottom: 17px;}
+        .method-btn {flex:1; padding: 12px; border: 2px solid #E8DCC8; border-radius: 8px; background: #fff; text-align: center; cursor: pointer; font-size: 17px; transition: all .2s;}
+        .method-btn:hover, .method-btn.active { border:2px solid #D4A574; background: #FEF8F0; color: #D4A574; font-weight:600;}
+        .scan-box {
+            background: #FEF8F0; padding: 24px 8px 18px 8px;
+            border-radius: 12px; border: 2px dashed #D4A574;
+            text-align: center; margin-bottom: 12px; min-height:190px;
+        }
         #photo-preview img {
-            max-width: 80%;
-            border-radius: 12px;
-            margin: 12px 0;
-            box-shadow: 0 6px 18px #c7ad83;
+            max-width: 92vw; width: 210px; border-radius: 15px;
+            margin: 12px 0 16px 0; box-shadow: 0 4px 16px #e1d1b6;
+            display: block; margin-left: auto; margin-right: auto;
+        }
+        input[type="file"] { display: none; }
+        .btn {
+            background: linear-gradient(135deg, #D4A574 0%, #8B6F47 100%);
+            color: white; border: none; border-radius: 8px;
+            padding: 15px 0; font-size: 17px; font-weight: 600;
+            width: 100%; cursor: pointer; box-shadow: 0 1px 10px #dbc6a2;
+            transition: background .2s;
+        }
+        .btn:hover { background: #8B6F47; }
+        .form-group { margin-bottom: 16px; }
+        label { font-weight: 600; color: #4A3F35; font-size: 14px; }
+        input, select { width: 100%; padding: 10px; font-size: 16px; margin-top: 4px; margin-bottom:8px;
+            border-radius: 6px; border: 1px solid #D4A574;}
+        input:focus, select:focus { border-color: #8B6F47; outline:none;}
+        .recent-meals { background: #fffbe7; padding: 12px 8px; border-radius: 10px; }
+        .meal-entry { padding: 9px 0; border-bottom: 1px solid #f2e1c3; font-size: 13px; color: #4A3F35;}
+        .meal-entry:last-child { border-bottom: none; }
+        .meal-time { font-weight: 600; color: #D4A574; }
+        .meal-details { color: #9B8B7E; font-size: 12px; margin-top: 3px;}
+        .emoji {font-size:17px; margin-right:2px;}
+        @media (max-width: 600px) {
+            .container { padding: 0 2vw;}
+            .card, .page-header { padding: 13px 7px;}
+            .btn { font-size:15px;}
         }
     </style>
 </head>
@@ -28,36 +89,34 @@
     <div class="container">
         <div class="page-header">
             <h1>📷 Log Your Meal</h1>
-            <p>Choose how you'd like to log your meal</p>
+            <p>Log a meal using the Camera Scanner or Manual Entry.</p>
         </div>
         <div class="card">
-            <h2>Select Logging Method</h2>
+            <h2>Choose Logging Method</h2>
             <div class="method-selector">
-                <div class="method-btn active" onclick="selectMethod('camera')">
-                    <div style="font-size: 32px; margin-bottom: 10px;">📸</div>
+                <div class="method-btn active" onclick="selectMethod('camera', event)">
+                    <div class="emoji">📸</div>
                     <div style="font-weight: 600;">Camera Scanner</div>
-                    <div style="font-size: 12px; color: #9B8B7E; margin-top: 5px;">Scan with camera</div>
+                    <div style="font-size: 12px; color: #9B8B7E;">Scan with camera</div>
                 </div>
-                <div class="method-btn" onclick="selectMethod('manual')">
-                    <div style="font-size: 32px; margin-bottom: 10px;">✏️</div>
+                <div class="method-btn" onclick="selectMethod('manual', event)">
+                    <div class="emoji">✏️</div>
                     <div style="font-weight: 600;">Manual Entry</div>
-                    <div style="font-size: 12px; color: #9B8B7E; margin-top: 5px;">Type details</div>
+                    <div style="font-size: 12px; color: #9B8B7E;">Type details</div>
                 </div>
             </div>
         </div>
-
-        <!-- Updated camera section: now real photo input -->
         <div id="camera-section" class="card">
-            <h2>📸 Camera Scanner</h2>
-            <div style="background: #FEF8F0; padding: 40px; border-radius: 8px; border: 2px dashed #D4A574; text-align: center; margin-bottom: 20px;">
-                <input type="file" id="take-photo" accept="image/*" capture="environment" style="display:none;" onchange="processPhoto(this)">
-                <button class="btn" onclick="document.getElementById('take-photo').click()">📷 Take a Photo</button>
+            <h2><span class="emoji">📸</span> Camera Scanner</h2>
+            <div class="scan-box">
+                <input type="file" id="take-photo" accept="image/*" capture="environment" onchange="processPhoto(this)">
+                <button class="btn" style="width:95%;max-width:280px;margin-bottom:16px;font-size:16px;"
+                        onclick="document.getElementById('take-photo').click()">Take a Photo</button>
                 <div id="photo-preview"></div>
             </div>
         </div>
-
         <div id="manual-section" class="card" style="display: none;">
-            <h2>✏️ Manual Entry</h2>
+            <h2><span class="emoji">✏️</span> Manual Entry</h2>
             <div class="form-group">
                 <label for="food-name">Food Name</label>
                 <input type="text" id="food-name" placeholder="e.g., Chicken Biryani">
@@ -78,29 +137,22 @@
             </div>
             <button class="btn" onclick="logManualMeal()">✓ Log Meal</button>
         </div>
-
         <div class="card">
             <h2>📅 Recent Meals Today</h2>
             <div class="recent-meals">
-                <div class="meal-entry">
-                    <div class="meal-time">🌅 Breakfast - 8:30 AM</div>
-                    <div class="meal-details">Idli with Sambar (2 idlis) • 120 cal</div>
-                </div>
-                <div class="meal-entry">
-                    <div class="meal-time">☀️ Lunch - 1:00 PM</div>
-                    <div class="meal-details">Chicken Biryani (1 plate) • 450 cal</div>
-                </div>
-                <div class="meal-entry">
-                    <div class="meal-time">🍎 Snack - 5:00 PM</div>
-                    <div class="meal-details">Tea with biscuits • 150 cal</div>
-                </div>
+                <div class="meal-entry"><span class="emoji">🌅</span>Breakfast - 8:30 AM<br>
+                    <span class="meal-details">Idli with Sambar (2 idlis) • 120 cal</span></div>
+                <div class="meal-entry"><span class="emoji">☀️</span>Lunch - 1:00 PM<br>
+                    <span class="meal-details">Chicken Biryani (1 plate) • 450 cal</span></div>
+                <div class="meal-entry"><span class="emoji">🍎</span>Snack - 5:00 PM<br>
+                    <span class="meal-details">Tea with biscuits • 150 cal</span></div>
             </div>
         </div>
     </div>
     <script>
-        function selectMethod(method) {
+        function selectMethod(method, ev) {
             document.querySelectorAll('.method-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.method-btn').classList.add('active');
+            ev.target.closest('.method-btn').classList.add('active');
             document.getElementById('camera-section').style.display = (method === 'camera') ? 'block' : 'none';
             document.getElementById('manual-section').style.display = (method === 'manual') ? 'block' : 'none';
         }
@@ -110,11 +162,9 @@
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    // Show live preview
-                    photoPreview.innerHTML = `<img src="${e.target.result}">`;
-                    // Save image to sessionStorage
+                    photoPreview.innerHTML = `<img src="${e.target.result}" alt="Your photo">`;
                     sessionStorage.setItem('mealPhoto', e.target.result);
-                    setTimeout(() => window.location.href = "scan-result.html", 1200);
+                    setTimeout(() => window.location.href = "scan-result.html", 1100);
                 }
                 reader.readAsDataURL(input.files[0]);
             }
