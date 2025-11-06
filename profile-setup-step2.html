@@ -48,4 +48,75 @@
 </div>
 <div class="container">
   <form id="dietForm" class="step-box" autocomplete="off">
-    <
+    <div class="step-indicator">
+      <div class="step-dot">1</div>
+      <div class="step-dot active">2</div>
+      <div class="step-dot">3</div>
+      <div class="step-dot">4</div>
+    </div>
+    <div class="step-header">Step 2: Dietary Preferences & Restrictions</div>
+    <div class="form-group">
+      <label for="dietType">Diet Type</label>
+      <select id="dietType" required>
+        <option value="">Choose…</option>
+        <option>Vegetarian</option>
+        <option>Non-Vegetarian</option>
+        <option>Vegan</option>
+        <option>Pescatarian</option>
+        <option>Jain</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Allergies (select any):</label>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><input type="checkbox" value="Milk">Milk</div>
+        <div class="checkbox-item"><input type="checkbox" value="Eggs">Eggs</div>
+        <div class="checkbox-item"><input type="checkbox" value="Peanuts">Peanuts</div>
+        <div class="checkbox-item"><input type="checkbox" value="Tree nuts">Tree nuts</div>
+        <div class="checkbox-item"><input type="checkbox" value="Soy">Soy</div>
+        <div class="checkbox-item"><input type="checkbox" value="Wheat">Wheat</div>
+        <div class="checkbox-item"><input type="checkbox" value="Fish">Fish</div>
+        <div class="checkbox-item"><input type="checkbox" value="Shellfish">Shellfish</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="otherAllergy">Other Allergies / Restrictions</label>
+      <textarea id="otherAllergy" rows="2" placeholder="E.g., Gluten, sesame, mustard…"></textarea>
+    </div>
+    <div class="form-actions">
+      <div>
+        <button class="btn" type="button" onclick="goToPrev()">&larr; Back</button>
+        <button class="btn" type="button" onclick="goToNext()">Next &rarr;</button>
+      </div>
+      <button class="btn skip" type="button" onclick="skipToDashboard()">Skip to Dashboard</button>
+    </div>
+  </form>
+</div>
+<script>
+function goToPrev() {
+  window.location = "profile-setup.html";
+}
+function goToNext() {
+  var form = document.getElementById("dietForm");
+  localStorage.setItem('profileDietType', document.getElementById('dietType').value);
+  let allerg = [];
+  document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked').forEach(box => allerg.push(box.value));
+  localStorage.setItem('profileAllergies', JSON.stringify(allerg));
+  localStorage.setItem('profileOtherAllergy', document.getElementById('otherAllergy').value || "");
+  window.location = "profile-setup-step3.html";
+}
+function skipToDashboard() {
+  window.location = "dashboard.html";
+}
+function openMenu() {
+  document.getElementById("menuDrawer").classList.add("open");
+  document.getElementById("menuBackdrop").classList.add("show");
+}
+function closeMenu() {
+  document.getElementById("menuDrawer").classList.remove("open");
+  document.getElementById("menuBackdrop").classList.remove("show");
+}
+</script>
+</body>
+</html>
