@@ -84,6 +84,7 @@
             <p>Capture or upload a photo to identify your food</p>
         </header>
 
+        <!-- Image Capture/Upload Section -->
         <section class="card">
             <div class="card__body">
                 <h2>Upload or Capture Photo</h2>
@@ -99,21 +100,26 @@
                     >
                 </div>
 
+                <!-- Image Preview -->
                 <img id="image-preview" class="image-preview" alt="Preview">
 
+                <!-- Loading Spinner -->
                 <div id="loading" class="loading">
                     <div class="spinner"></div>
                     <p>Analyzing your meal...</p>
                 </div>
 
+                <!-- Scan Button -->
                 <button id="scan-btn" type="button" class="btn btn--primary btn--full-width" onclick="scanMeal()">
                     🔍 Scan & Identify
                 </button>
 
+                <!-- Error Message -->
                 <div id="error-message" class="error-message"></div>
             </div>
         </section>
 
+        <!-- Prediction Result Section -->
         <section id="prediction-result" class="prediction-result">
             <div class="prediction-label">
                 🍽️ Identified: <span id="predicted-food">–</span>
@@ -127,9 +133,14 @@
         </section>
     </div>
 
-    <script>
-        const SPACE_API_URL = "https://o-meiuqer-o-uopo-app.hf.space/predict";
+    <!-- Use ES module to import Gradio client -->
+    <script type="module">
+        import { client } from "https://esm.run/@gradio/client";
 
+        // Space replica URL from your snippet
+        const SPACE_URL = "https://o-meiuqer-o-uopo-app.hf.space/--replicas/snnkg/";
+
+        // Preview image when selected
         document.getElementById("meal-photo-input").addEventListener("change", function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -164,30 +175,31 @@
             scanBtn.disabled = true;
 
             try {
-                const formData = new FormData();
-                formData.append("file", file);
+                const app = await client(SPACE_URL);
 
-                const response = await fetch(SPACE_API_URL, {
-                    method: "POST",
-                    body: formData
-                });
+                // For your Gradio interface: single Image input, endpoint name "/predict"
+                const result = await app.predict("/predict", [
+                    file  // blob/file for the Image component
+                ]);
 
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status}`);
+                // Gradio returns data as an array: [top_label, confidences]
+                const topLabel = result.data?.[0] ?? "Unknown";
+                const confidences = result.data?.[1] ?? {};
+
+                let topConfidence = 0;
+                const values = Object.values(confidences);
+                if (values.length > 0) {
+                    topConfidence = Math.max(...values) * 100;
                 }
 
-                const data = await response.json();
-
-                document.getElementById("predicted-food").textContent = data.top_label || "Unknown";
-                
-                const topConfidence = Math.max(...Object.values(data.confidences)) * 100;
-                document.getElementById("predicted-confidence").textContent = topConfidence.toFixed(1);
+                document.getElementById("predicted-food").textContent = topLabel;
+                document.getElementById("predicted-confidence").textContent =
+                    Number.isFinite(topConfidence) ? topConfidence.toFixed(1) : "–";
 
                 resultSection.classList.add("visible");
-
             } catch (error) {
                 console.error("Error:", error);
-                errorDiv.textContent = `Error analyzing image: ${error.message}. Make sure the Space is running.`;
+                errorDiv.textContent = `Error analyzing image: ${error.message}`;
                 errorDiv.classList.add("visible");
             } finally {
                 loading.classList.remove("visible");
@@ -195,10 +207,14 @@
             }
         }
 
-        function addToLog() {
+        // Expose scanMeal to the global scope so onclick can find it
+        window.scanMeal = scanMeal;
+
+        // Simple placeholder for future logging
+        window.addToLog = function addToLog() {
             const foodLabel = document.getElementById("predicted-food").textContent;
             alert(`Added "${foodLabel}" to your meal log!`);
-        }
+        };
     </script>
 </body>
 </html>
